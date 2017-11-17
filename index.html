@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>Bundesländer Deutschland</title>
+    <meta charset="utf-8"></meta>
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-geojson-component/dist/aframe-geojson-component.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <a-asset-item id="bundeslaender_niedrig" src="assets/bundeslaender_niedrig.json" />
+      </a-assets>
+      <a-entity scale="50 50 11.5">
+        <a-entity id="countries-plate"
+          position="-0.2 -1.105 -0.5"
+          class="gazeactivated"
+          geometry="primitive: plane; width: 8; height: 4;"
+          material="shader: flat; color: #000; transparent: true;"
+          geojson="src: #bundeslaender_niedrig; topologyObject: country;
+            lineWidth: 1;"
+          visible="true"
+          selection-to-text
+          >
+        </a-entity>
+      </a-entity>
+        <a-camera id="camera" position="0 1 0"  user-height="0" wasd-controls-enabled="true" look-controls-enabled="true">
+        </a-camera>
+    </a-scene>
+  </body>
+</html>
