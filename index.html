@@ -8,22 +8,21 @@
   <body>
     <a-scene>
       <a-assets>
-        <a-asset-item id="bundeslaender_niedrig" src="assets/bundeslaender_niedrig.json" />
+        <a-asset-item id="bundeslaender_de" src="assets/bundeslaender_hoch.json" />
       </a-assets>
-      <a-entity scale="50 50 11.5">
+      <a-entity scale="50 1 50" position="-11.5 0 0">
         <a-entity id="countries-plate"
-          position="-0.2 -1.105 -0.5"
+          position="0 0 1"
           class="gazeactivated"
           geometry="primitive: plane; width: 8; height: 4;"
-          material="shader: flat; color: #000; transparent: true;"
-          geojson="src: #bundeslaender_niedrig; topologyObject: country;
-            lineWidth: 1;"
+          rotation="-90 0 0"
+          material="shader: flat; color: #77C; transparent: true;"
+          geojson="src: #bundeslaender_de; lineWidth: 1;"
           visible="true"
-          selection-to-text
           >
         </a-entity>
       </a-entity>
-        <a-camera id="camera" position="0 1 0"  user-height="0" wasd-controls-enabled="true" look-controls-enabled="true">
+        <a-camera id="camera" rotation="-45 0 0" user-height="5" wasd-controls-enabled="true" look-controls-enabled="true">
         </a-camera>
     </a-scene>
   </body>
