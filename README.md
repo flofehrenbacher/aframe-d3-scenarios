@@ -6,6 +6,9 @@ The example provided at the index.html shows counting points on German motorways
 
 ----------
 
+![Preview](doc/zaehlstellen-autobahnen-de.png)
+
+----------
 
 References
 -------------
