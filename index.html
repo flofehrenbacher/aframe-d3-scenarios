@@ -11,7 +11,7 @@
       <a-assets>
         <a-asset-item id="bundeslaender_de" src="assets/bundeslaender_hoch.json" />
       </a-assets>
-      <a-entity scale="50 1 50" position="-11.5 0 0">
+      <a-entity scale="50 1 50" position="-6.488 0 2.516">
         <a-entity id="countries-plate"
           position="0 0 1"
           class="gazeactivated"
@@ -23,60 +23,56 @@
         </a-entity>
       </a-entity>
       <a-sky color="#08F"></a-sky>
-      <a-camera id="camera" rotation="-45 0 0" user-height="5" wasd-controls-enabled="true" look-controls-enabled="true"></a-camera>
+      <a-camera position="4.5 0 0.5" id="camera" rotation="-45 0 0" user-height="5" wasd-controls-enabled="true" look-controls-enabled="false"></a-camera>
     </a-scene>
     <script language="javascript">
-		var sample = new Array(200)
+		d3.csv("data/zaehlstellen-durchschnitt.csv", function(data) {
 
-		for (var i = 0; i < 200; i++) {
-			sample[i] = Math.random() * 200
-		}
+			var heightScale = d3.scale.linear()
+				.domain([0, d3.max(data, function(d) { return d.DTV_Kfz_MobisSo_Q; }) ])
+				.range([0,0.9])
 
-		var heightScale = d3.scale.linear()
-			.domain([0, d3.max(sample)])
-			.range([0,0.9])
+			var longitudeScale = d3.scale.linear()
+				.domain([5.8721,15.0409])
+				.range([0,10.213])
 
-		var greenScale = d3.scale.linear()
-			.domain([0, d3.max(sample)])
-			.range([255,0])
+			var latitudeScale = d3.scale.linear()
+				.domain([47.2691,55.0572])
+				.range([0,-8.647])
 
-		var redScale = d3.scale.linear()
-			.domain([0, d3.max(sample)])
-			.range([0,255])
+			var scene = d3.select("a-scene");
 
-		var scene = d3.select("a-scene");
+			var cylinders = scene.selectAll("a-cylinder.cyl")
+	      		.data(data)
+	      		.enter()
+	      		.append("a-cylinder")
+	      		.classed("cyl",true)
+	      		.attr({
+					position: function(d) {
+						// returning x coordinate between 0 and 2
+						var x = longitudeScale(d.Koor_WGS84_E);
+						var z = latitudeScale(d.Koor_WGS84_N);
 
-		var cubes = scene.selectAll("a-cylinder.cyl")
-      		.data(sample)
-      		.enter()
-      		.append("a-cylinder")
-      		.classed("cyl",true)
-      		.attr({
-				position: function(d) {
-					// returning x coordinate between 0 and 2
-					var x = Math.random() * 7;
-					var z = Math.random() * 7.5;
+						var y = heightScale(d.DTV_Kfz_MobisSo_Q) / 2;
 
-					var y = heightScale(d) / 2;
-
-					return x-3.3 + " " + y + " " + (-z-2.48)
-				},
-				height: function(d) {
-				    return heightScale(d)
-				},
-				radius: function(d) {
-					return 0.05
-				},
-				color: function(d) {
-					if(heightScale(d)<0.3)
-						return "rgb(0,255,0)"
-					if(heightScale(d)>0.6)
-						return "rgb(255,0,0)"
-					else
-						return "rgb(255,255,0)"
-				}
-			})
-
+						return x + " " + y + " " + z
+					},
+					height: function(d) {
+					    return heightScale(d.DTV_Kfz_MobisSo_Q)
+					},
+					radius: function(d) {
+						return 0.03
+					},
+					color: function(d) {
+						if(heightScale(d.DTV_Kfz_MobisSo_Q)<0.3)
+							return "rgb(0,255,0)"
+						if(heightScale(d.DTV_Kfz_MobisSo_Q)>0.6)
+							return "rgb(255,0,0)"
+						else
+							return "rgb(255,255,0)"
+					}
+				})
+			});
     </script>
   </body>
 </html>
