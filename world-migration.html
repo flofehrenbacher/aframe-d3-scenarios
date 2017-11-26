@@ -7,15 +7,6 @@
   	<script src="https://unpkg.com/aframe-geojson-component/dist/aframe-geojson-component.min.js"></script>
   	<!-- allow user to rotate view around object -->
   	<script src="https://cdn.rawgit.com/tizzle/aframe-orbit-controls-component/v0.1.14/dist/aframe-orbit-controls-component.min.js"></script>
-  	<script>
-  		AFRAME.registerComponent('log', {
-		  schema: {type: 'string'},
-		  init: function () {
-		    var stringToLog = this.data;
-		    console.log(stringToLog);
-		  }
-		});
-	</script>
   </head>
   <body>
     <a-scene>
@@ -29,15 +20,14 @@
       	  src="#earth-texture"
       	  radius="2"
       	  material="roughness: 1.0"
-		></a-sphere>
+		    ></a-sphere>
         <a-entity 
           geometry="primitive: sphere; radius: 2;"
           material="color: #FFF;"
           geojson="src: #world; line-width: 1"
-		></a-entity>
-	  	<a-box log="Hello, Box!"></a-box>
+		    ></a-entity>
       </a-entity>
-      <a-sky color="#014"></a-sky>
+      <a-sky color="#000"></a-sky>
       <a-camera position="0 0 0" id="camera" rotation="0 0 0" user-height="0" wasd-controls-enabled="false" look-controls-enabled="false" orbit-controls="
               autoRotate: false;
               target: #target;
