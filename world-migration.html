@@ -7,6 +7,7 @@
   	<script src="https://unpkg.com/aframe-geojson-component/dist/aframe-geojson-component.min.js"></script>
   	<!-- allow user to rotate view around object -->
   	<script src="https://cdn.rawgit.com/tizzle/aframe-orbit-controls-component/v0.1.14/dist/aframe-orbit-controls-component.min.js"></script>
+    <script src="components/world.js"></script>
   </head>
   <body>
     <a-scene>
@@ -21,10 +22,15 @@
       	  radius="2"
       	  material="roughness: 1.0"
 		    ></a-sphere>
-        <a-entity 
+        <a-entity
+          class="gazeactivated"
           geometry="primitive: sphere; radius: 2;"
           material="color: #FFF;"
-          geojson="src: #world; line-width: 1"
+          geojson="src: #world; 
+                    line-width: 1;
+                    featureKey: name;
+                    featureEventName: raycaster-intersected;"
+          show-country-info
 		    ></a-entity>
       </a-entity>
       <a-sky color="#000"></a-sky>
@@ -34,9 +40,11 @@
               enableDamping: true;
               dampingFactor: 0.125;
               rotateSpeed:0.2;
-              minDistance:2;
+              minDistance:3;
               maxDistance:5;
-              " mouse-cursor="" ></a-camera>
+              " mouse-cursor="" >
+        <a-cursor fuse objects=".gazeactivated" interval="1000"></a-cursor>        
+      </a-camera>
     </a-scene>
   </body>
 </html>
