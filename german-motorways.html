@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bundesländer Deutschland</title>
+    <meta charset="utf-8"></meta>
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+  	<script src="https://unpkg.com/aframe-geojson-component/dist/aframe-geojson-component.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <a-asset-item id="bundeslaender_de" src="assets/bundeslaender_hoch.json" />
+      </a-assets>
+      <a-entity scale="50 1 50" position="-6.488 0 2.516">
+        <a-entity id="countries-plate"
+          position="0 0 1"
+          class="gazeactivated"
+          geometry="primitive: plane; width: 8; height: 4;"
+          rotation="-90 0 0"
+          material="shader: flat; color: #000; transparent: true;"
+          geojson="src: #bundeslaender_de; lineWidth: 1;"
+          visible="true">
+        </a-entity>
+      </a-entity>
+      <a-sky color="#08F"></a-sky>
+      <a-camera position="4.5 0 0.5" id="camera" rotation="-45 0 0" user-height="5" wasd-controls-enabled="true" look-controls-enabled="false"></a-camera>
+    </a-scene>
+    <script language="javascript">
+		d3.csv("data/zaehlstellen-durchschnitt.csv", function(data) {
+
+			var heightScale = d3.scale.linear()
+				.domain([0, d3.max(data, function(d) { return d.DTV_Kfz_MobisSo_Q; }) ])
+				.range([0,0.9])
+
+			var longitudeScale = d3.scale.linear()
+				.domain([5.8721,15.0409])
+				.range([0,10.213])
+
+			var latitudeScale = d3.scale.linear()
+				.domain([47.2691,55.0572])
+				.range([0,-8.647])
+
+			var scene = d3.select("a-scene");
+
+			var cylinders = scene.selectAll("a-cylinder.cyl")
+	      		.data(data)
+	      		.enter()
+	      		.append("a-cylinder")
+	      		.classed("cyl",true)
+	      		.attr({
+					position: function(d) {
+						// returning x coordinate between 0 and 2
+						var x = longitudeScale(d.Koor_WGS84_E);
+						var z = latitudeScale(d.Koor_WGS84_N);
+
+						var y = heightScale(d.DTV_Kfz_MobisSo_Q) / 2;
+
+						return x + " " + y + " " + z
+					},
+					height: function(d) {
+					    return heightScale(d.DTV_Kfz_MobisSo_Q)
+					},
+					radius: function(d) {
+						return 0.03
+					},
+					color: function(d) {
+						if(heightScale(d.DTV_Kfz_MobisSo_Q)<0.3)
+							return "rgb(0,255,0)"
+						if(heightScale(d.DTV_Kfz_MobisSo_Q)>0.6)
+							return "rgb(255,0,0)"
+						else
+							return "rgb(255,255,0)"
+					}
+				})
+			});
+    </script>
+  </body>
+</html>

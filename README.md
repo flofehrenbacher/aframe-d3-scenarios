@@ -2,7 +2,7 @@ aframe-d3-scenarios
 =================
 
 By combining the **aframe-framework** (for virtual reality visualization) and the **d3-framework** (for data processing) I'm visualizing data in 3D. 
-The example provided at the index.html shows counting points on German motorways. (https://flofehrenbacher.github.io/aframe-d3-scenarios/)
+The examples include showing counting points on German motorways and the earth mapped on a globe (https://flofehrenbacher.github.io/aframe-d3-scenarios/)
 
 ----------
 
@@ -16,11 +16,14 @@ References
  - [A-Frame]
  - [D3.js]
  - [aframe-geojson-component]
+ - [aframe-orbit-controls-component]
  - [Daten Zählstellen]
-
+ - [World GeoJson]
 
 
 [A-Frame]: https://aframe.io/
 [D3.js]: https://d3js.org/
 [aframe-geojson-component]: https://github.com/mattrei/aframe-geojson-component
+[aframe-orbit-controls-component]: https://github.com/tizzle/aframe-orbit-controls-component
 [Daten Zählstellen]: http://www.bast.de/DE/Verkehrstechnik/Fachthemen/v2-verkehrszaehlung/zaehl_node.html
+[World GeoJson]: https://github.com/johan/world.geo.json
