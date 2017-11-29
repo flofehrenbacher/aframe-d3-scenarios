@@ -17,7 +17,7 @@
         <img id="earth-lights" src="assets/earth-lights.png" />
         <img id="earth-texture" src="assets/earth-texture.jpg" />
       </a-assets>
-      <a-entity position="0 0 -4" id="target">
+      <a-entity id="target" position="0 0 -4" show-earthquakes>
       	<a-sphere
       	  src="#earth-texture"
       	  radius="2"
@@ -32,7 +32,6 @@
                     line-width: 1;
                     featureKey: name;
                     featureEventName: raycaster-intersected;"
-          show-country-info
 		    ></a-entity>
       </a-entity>
       <a-sky color="#000"></a-sky>
@@ -44,7 +43,7 @@
               rotateSpeed:0.2;
               minDistance:1;
               maxDistance:5;
-              " mouse-cursor="" >
+              " >
         <!--<a-cursor fuse objects=".gazeactivated" interval="1000"></a-cursor>-->
       </a-camera>
     </a-scene>

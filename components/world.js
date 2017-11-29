@@ -1,7 +1,7 @@
 /* globals AFRAME */
-AFRAME.registerComponent('show-country-info', {
+AFRAME.registerComponent('show-earthquakes', {
   init: function () {
-    d3.json("data/all-one-week.geo.json", function(worldData) {
+    d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", function(worldData) {
       var data = worldData.features;
 
       var inradians = function (degrees) {

@@ -2,7 +2,7 @@ aframe-d3-scenarios
 =================
 
 By combining the **aframe-framework** (for virtual reality visualization) and the **d3-framework** (for data processing) I'm visualizing data in 3D.
-The examples include showing counting points on German motorways and the earth mapped on a globe including earthquake data (https://flofehrenbacher.github.io/aframe-d3-scenarios/)
+The examples include showing counting points on German motorways and the earth mapped on a globe including live earthquake data from last week (https://flofehrenbacher.github.io/aframe-d3-scenarios/)
 
 ----------
 
