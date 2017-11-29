@@ -34,7 +34,9 @@ AFRAME.registerComponent('map', {
   				radius: function(d) {
   					return 0.03
   				},
-          height: '0',
+          height: function(d) {
+            return heightScale(d.DTV_Kfz_MobisSo_Q)
+          },
   				color: function(d) {
   					if(heightScale(d.DTV_Kfz_MobisSo_Q)<0.3)
   					return "rgb(0,255,0)"
@@ -44,13 +46,15 @@ AFRAME.registerComponent('map', {
   					return "rgb(255,255,0)"
   				}
   			})
+        /*
         .transition()
-        .duration(10000)
+        .duration(5000)
         .attr({
           height: function(d) {
             return heightScale(d.DTV_Kfz_MobisSo_Q)
           }
         });
+        */
   	});
   }
 });
