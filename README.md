@@ -17,7 +17,7 @@ References
  - [D3.js]
  - [aframe-geojson-component]
  - [aframe-orbit-controls-component]
- - [Daten Zählstellen]
+ - [Motorway Data]
  - [World GeoJson]
  - [Earthquakes]
 
@@ -26,6 +26,6 @@ References
 [D3.js]: https://d3js.org/
 [aframe-geojson-component]: https://github.com/mattrei/aframe-geojson-component
 [aframe-orbit-controls-component]: https://github.com/tizzle/aframe-orbit-controls-component
-[Daten Zählstellen]: http://www.bast.de/DE/Verkehrstechnik/Fachthemen/v2-verkehrszaehlung/zaehl_node.html
+[Motorway Data]: http://www.bast.de/DE/Verkehrstechnik/Fachthemen/v2-verkehrszaehlung/zaehl_node.html
 [World GeoJson]: https://github.com/johan/world.geo.json
 [Earthquakes]: https://earthquake.usgs.gov/
