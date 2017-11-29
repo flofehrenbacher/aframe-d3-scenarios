@@ -4,6 +4,7 @@
     <title>World Migration</title>
     <meta charset="utf-8"></meta>
     <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
   	<script src="https://unpkg.com/aframe-geojson-component/dist/aframe-geojson-component.min.js"></script>
   	<!-- allow user to rotate view around object -->
   	<script src="https://cdn.rawgit.com/tizzle/aframe-orbit-controls-component/v0.1.14/dist/aframe-orbit-controls-component.min.js"></script>
@@ -14,19 +15,20 @@
       <a-assets>
         <a-asset-item id="world" src="assets/world.geo.json" />
         <img id="earth-lights" src="assets/earth-lights.png" />
-        <img id="earth-texture" src="assets/earth-texture.jpg" /> 
+        <img id="earth-texture" src="assets/earth-texture.jpg" />
       </a-assets>
-      <a-entity scale="1 1 1" position="0 0 -3" id="target">
+      <a-entity position="0 0 -4" id="target">
       	<a-sphere
       	  src="#earth-texture"
       	  radius="2"
+          segments-height="53"
       	  material="roughness: 1.0"
 		    ></a-sphere>
         <a-entity
           class="gazeactivated"
           geometry="primitive: sphere; radius: 2;"
           material="color: #FFF;"
-          geojson="src: #world; 
+          geojson="src: #world;
                     line-width: 1;
                     featureKey: name;
                     featureEventName: raycaster-intersected;"
@@ -40,10 +42,10 @@
               enableDamping: true;
               dampingFactor: 0.125;
               rotateSpeed:0.2;
-              minDistance:3;
+              minDistance:1;
               maxDistance:5;
               " mouse-cursor="" >
-        <a-cursor fuse objects=".gazeactivated" interval="1000"></a-cursor>        
+        <a-cursor fuse objects=".gazeactivated" interval="1000"></a-cursor>
       </a-camera>
     </a-scene>
   </body>
