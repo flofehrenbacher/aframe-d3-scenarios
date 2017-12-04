@@ -1,8 +1,7 @@
 /* globals AFRAME */
 AFRAME.registerComponent('show-earthquakes', {
   init: function () {
-    // live data https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson
-    d3.json("../data/all-one-week.geo.json", function(worldData) {
+    d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", function(worldData) {
       var data = worldData.features;
       console.log("MIN: " + d3.min(data, function(d) { return d.properties.mag ; }));
       console.log("MAX: " + d3.max(data, function(d) { return d.properties.mag ; }));
