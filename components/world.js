@@ -49,6 +49,7 @@ AFRAME.registerComponent('show-earthquakes', {
                     + ',' + Math.floor(Math.random() * 255)
                     + ',' + Math.floor(Math.random() * 255) + ')'
             */
+            // create three categories of earthquake magnitude
             if(d.properties.mag < 2){
               return '#0A0';
             } else if (d.properties.mag < 5) {
