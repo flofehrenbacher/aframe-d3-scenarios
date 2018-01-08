@@ -1,0 +1,50 @@
+body{
+  overflow: hidden;
+}
+
+.navbar {
+    background-color: rgba(0,0,4,0.9);
+    margin: 0;
+}
+
+.navbar-header {
+    color: white;
+    font-size: 1em;
+    margin: auto 0;
+    width: 100%;
+}
+
+.centered {
+    text-align: center;
+}
+
+path {
+  stroke: #fff;
+  stroke-width: 1;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+path.autobahn {
+  stroke: yellow;
+  stoke-width: 1;
+}
+
+path.landkreise {
+  stroke: white;
+}
+
+#zaehlstellen-statistics {
+  z-index: 10;
+  position: absolute;
+  right: 0;
+  top: 0;
+  float: right;
+  margin; 0;
+  background-color: #BBB;
+  width: 30%;
+  height: 50%;
+  border-bottom-left-radius: 1em;
+  display: none;
+}

@@ -16,7 +16,7 @@ AFRAME.registerComponent('show-earthquakes', {
 
       var colorScale = d3.scale.linear()
   			.domain([d3.min(data, function(d) { return d.properties.mag ; }), d3.max(data, function(d) { return d.properties.mag ; }) ])
-  			.range(['#FFF', '#5b0070'])
+  			.range(['#FFF', '#F00'])
 
       var globeRadius = 2;
       var scene = d3.select("#target");
@@ -45,7 +45,7 @@ AFRAME.registerComponent('show-earthquakes', {
           },
           radius: '0.02',
           color: function(d){
-            
+
             return 'rgb(' + Math.floor(Math.random() * 255)
                     + ',' + Math.floor(Math.random() * 255)
                     + ',' + Math.floor(Math.random() * 255) + ')'
@@ -62,9 +62,7 @@ AFRAME.registerComponent('show-earthquakes', {
               return '#00A';
             }
             */
-            /*
-            return colorScale(d.properties.mag)
-            */
+            // return colorScale(d.properties.mag)
           }
         });
     });
