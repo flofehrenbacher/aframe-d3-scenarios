@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!-- inspired by Ian Johnson: https://youtu.be/Tb2b5nFmmsM -->
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  <script src="https://aframe.io/releases/latest/aframe.min.js"></script>
+  <style>
+    body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
+  </style>
+</head>
+
+<body>
+  
+   <a-scene>
+      <!--<a-cube position="0 0 -4" depth=1 height=0.1 width=100 color="#fff"></a-cube>-->
+      <a-light color="#da47da" position="0 0 0" type="ambient"></a-light>
+      <a-entity light="type: point; color: #EEE; intensity: 0.5" position="0 3 0"></a-entity>
+     <a-entity position="0 0 0" rotation="0 0 0">
+    	 <a-entity camera look-controls wasd-controls></a-entity>
+     </a-entity>
+    	
+      <!-- Sky -->
+      <a-sky color="#c8f7f0"></a-sky>
+  </a-scene>
+  
+  <script>
+    // fake data
+    var data = [ 10, 20, 30, 15, 25, 35, 40,
+                45, 50, 70, 100, 120, 130,
+               12, 18, 22, 29, 33, 44, 59, 200]
+    
+    var hscale = d3.scale.linear()
+      .domain([0, d3.max(data)])
+      .range([0,5])
+    
+    var scene = d3.select("a-scene");
+    
+    var cubes = scene.selectAll("a-cube.bar")
+      .data(data)
+    cubes.enter().append("a-cube").classed("bar", true)
+    cubes.attr({
+      position: function(d,i) {
+        var radius = 10;
+        var theta = (i/data.length) * (2 * Math.PI)
+        var x = radius * Math.cos(theta);
+        var y = hscale(d)/2;
+        var z = radius * Math.sin(theta);
+        return x + " " + y + " " + z
+      },
+      rotation: function(d,i) {
+        var x = 0;
+        var y = -360 * i/data.length;
+        var z = 0;
+        return x + " " + y + " " + z
+      },
+      height: function(d,i) {
+        return hscale(d)
+      }
+    })
+  </script>
+</body>
