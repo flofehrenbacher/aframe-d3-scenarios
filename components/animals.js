@@ -6,25 +6,25 @@ AFRAME.registerComponent('animals-d3', {
                 45, 50, 70, 100, 120, 130,
                12, 18, 22, 29, 33, 44, 59, 200]
 
-    var heightScale = d3.scale.linear()
+    var heightScale = d3.scaleLinear()
       .domain([0, d3.max(data)])
       .range([0,5])
 
-    var scene = d3.select("a-scene");
+    var scene = d3.select('a-scene');
 
-    var cubes = scene.selectAll("a-cylinder.bar")
+    var cubes = scene.selectAll('a-cylinder.bar')
       .data(data)
       .enter()
-      .append("a-cylinder")
-      .classed("bar", true)
-      .attr({
+      .append('a-cylinder')
+      .classed('bar', true)
+      .attrs({
         position: function(d,i) {
           var radius = 10;
           var angle = (i/data.length) * (2 * Math.PI)
           var x = radius * Math.cos(angle);
           var y = heightScale(d)/2;
           var z = radius * Math.sin(angle);
-          return x + " " + y + " " + z
+          return x + ' ' + y + ' ' + z
         },
         height: function(d,i) {
           return heightScale(d)

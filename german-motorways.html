@@ -2,32 +2,32 @@
 <html>
   <head>
     <title>Bundesländer Deutschland</title>
-    <meta charset="utf-8"></meta>
-    <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
-    <script src="https://unpkg.com/aframe-geojson-component/dist/aframe-geojson-component.min.js"></script>
-    <script src="components/counting-points.js"></script>
+    <meta charset='utf-8'></meta>
+    <script src='https://aframe.io/releases/0.7.1/aframe.min.js'></script>
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+    <script src='https://d3js.org/d3-selection-multi.v1.min.js'></script>
+    <script src='https://unpkg.com/aframe-geojson-component/dist/aframe-geojson-component.min.js'></script>
+    <script src='components/counting-points.js'></script>
   </head>
   <body>
     <a-scene>
       <a-assets>
-        <a-asset-item id="bundeslaender_de" src="assets/bundeslaender_hoch.json" />
+        <a-asset-item id='bundeslaender_de' src='assets/bundeslaender_hoch.json' />
       </a-assets>
-      <a-entity scale="50 1 50" position="-6.488 0 2.516">
-        <a-entity id="countries-plate"
-          position="0 0 1"
-          class="gazeactivated"
-          geometry="primitive: plane; width: 8; height: 4;"
-          rotation="-90 0 0"
-          material="shader: flat; color: #000; transparent: true;"
-          geojson="src: #bundeslaender_de; lineWidth: 1;"
-          visible="true"
+      <a-entity scale='50 1 50' position='-6.488 0 2.516'>
+        <a-entity id='countries-plate'
+          position='0 0 1'
+          class='gazeactivated'
+          geometry='primitive: plane; width: 8; height: 4;'
+          rotation='-90 0 0'
+          material='shader: flat; color: #000; transparent: true;'
+          geojson='src: #bundeslaender_de; lineWidth: 1;'
+          visible='true'
           map >
         </a-entity>
       </a-entity>
-      <a-sky color="#08F"></a-sky>
-      <a-entity camera="userHeight: 5" position="4.5 0 0.5" rotation="-45 0 0" wasd-controls="enabled: true" look-controls="enabled: true"></a-entity>
+      <a-sky color='#08F'></a-sky>
+      <a-entity camera='userHeight: 5' position='4.5 0 0.5' rotation='-45 0 0' wasd-controls='enabled: true' look-controls='enabled: false'></a-entity>
     </a-scene>
   </body>
 </html>

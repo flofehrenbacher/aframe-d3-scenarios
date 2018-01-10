@@ -2,42 +2,42 @@
 <html>
   <head>
     <title>Globe Earthquakes</title>
-    <meta charset="utf-8"></meta>
-    <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
-  	<script src="https://unpkg.com/aframe-geojson-component/dist/aframe-geojson-component.min.js"></script>
+    <meta charset='utf-8'></meta>
+    <script src='https://aframe.io/releases/0.7.1/aframe.min.js'></script>
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+    <script src='https://d3js.org/d3-selection-multi.v1.min.js'></script>
+  	<script src='https://unpkg.com/aframe-geojson-component/dist/aframe-geojson-component.min.js'></script>
   	<!-- allow user to rotate view around object -->
-  	<script src="https://cdn.rawgit.com/tizzle/aframe-orbit-controls-component/v0.1.14/dist/aframe-orbit-controls-component.min.js"></script>
-    <script src="components/world.js"></script>
+  	<script src='https://cdn.rawgit.com/tizzle/aframe-orbit-controls-component/v0.1.14/dist/aframe-orbit-controls-component.min.js'></script>
+    <script src='components/world.js'></script>
   </head>
   <body>
     <a-scene>
       <a-assets>
-        <a-asset-item id="world" src="assets/world.geo.json" />
-        <img id="earth-lights" src="assets/earth-lights.png" />
-        <img id="earth-texture" src="assets/earth-texture.jpg" />
+        <a-asset-item id='world' src='assets/world.geo.json' />
+        <img id='earth-lights' src='assets/earth-lights.png' />
+        <img id='earth-texture' src='assets/earth-texture.jpg' />
       </a-assets>
-      <a-entity id="target" position="0 0 -4" show-earthquakes>
+      <a-entity id='target' position='0 0 -4' show-earthquakes>
       	<a-sphere
-      	  src="#earth-texture"
-      	  radius="2"
-          segments-height="53"
-      	  material="roughness: 1.0"
+      	  src='#earth-texture'
+      	  radius='2'
+          segments-height='53'
+      	  material='roughness: 1.0'
           earthquake-bar
 		    ></a-sphere>
         <a-entity
-          class="gazeactivated"
-          geometry="primitive: sphere; radius: 2;"
-          material="color: #FFF;"
-          geojson="src: #world;
+          class='gazeactivated'
+          geometry='primitive: sphere; radius: 2;'
+          material='color: #FFF;'
+          geojson='src: #world;
                     line-width: 1;
                     featureKey: name;
-                    featureEventName: raycaster-intersected;"
+                    featureEventName: raycaster-intersected;'
 		    ></a-entity>
       </a-entity>
-      <a-sky color="#000"></a-sky>
-      <a-camera position="0 0 0" id="camera" rotation="0 0 0" user-height="0" wasd-controls-enabled="false" look-controls-enabled="false" orbit-controls="
+      <a-sky color='#000'></a-sky>
+      <a-camera position='0 0 0' id='camera' rotation='0 0 0' user-height='0' wasd-controls-enabled='false' look-controls-enabled='false' orbit-controls='
               autoRotate: false;
               target: #target;
               enableDamping: true;
@@ -45,8 +45,8 @@
               rotateSpeed:0.2;
               minDistance:1;
               maxDistance:5;
-              " >
-        <!--<a-cursor fuse objects=".gazeactivated" interval="1000"></a-cursor>-->
+              ' >
+        <!--<a-cursor fuse objects='.gazeactivated' interval='1000'></a-cursor>-->
       </a-camera>
     </a-scene>
   </body>

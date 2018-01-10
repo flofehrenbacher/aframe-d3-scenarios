@@ -1,7 +1,7 @@
 /* globals AFRAME */
 AFRAME.registerComponent('startd3', {
   init: function () {
-    d3.csv("data/corruption.csv", function(data) {
+    d3.csv('data/corruption.csv', function(data) {
       console.log(data);
 
       var width = 10;
@@ -40,37 +40,37 @@ AFRAME.registerComponent('startd3', {
         .domain([d3.min(data, function(d){ return d.wef }), d3.max(data, function(d){ return d.wef })])
         .range([0 + boxDimension, width + boxDimension]);
 
-      var scene = d3.select("#target");
+      var scene = d3.select('#target');
 
-      var countries = scene.selectAll("a-plane")
+      var countries = scene.selectAll('a-plane')
         .data(data)
         .enter()
-        .append("a-plane")
+        .append('a-plane')
         .attrs({
           position: function(d,i){
-            return xScale(d.hdi2015) + " " + yScale(d.cpi2016) + " " + (-zScale(d.wef))
+            return xScale(d.hdi2015) + ' ' + yScale(d.cpi2016) + ' ' + (-zScale(d.wef))
           },
           width: boxDimension,
           height: boxDimension/3,
           color: function(d){
             return cpiColorScale(d.cpi2016);
           }
-        })
+        });
 
       countries
-        .append("a-plane")
+        .append('a-plane')
         .attrs({
           color: function(d){ return wefColorScale(d.wef)},
-          position: "0 " + boxDimension/3 + " 0",
+          position: '0 ' + boxDimension/3 + ' 0',
           width: boxDimension,
           height: boxDimension/3
         });
 
       countries
-        .append("a-plane")
+        .append('a-plane')
         .attrs({
           color: function(d){ return wefColorScale(d.hdi2015)},
-          position: "0 " + -boxDimension/3 + " 0",
+          position: '0 ' + -boxDimension/3 + ' 0',
           width: boxDimension,
           height: boxDimension/3
         });

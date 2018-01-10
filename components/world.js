@@ -1,11 +1,10 @@
 /* globals AFRAME */
 AFRAME.registerComponent('show-earthquakes', {
   init: function () {
-    d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", function(worldData) {
+    d3.json('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson', function(worldData) {
       var data = worldData.features;
-      console.log("MIN: " + d3.min(data, function(d) { return d.properties.mag ; }));
-      console.log("MAX: " + d3.max(data, function(d) { return d.properties.mag ; }));
-
+      console.log('MIN: ' + d3.min(data, function(d) { return d.properties.mag ; }));
+      console.log('MAX: ' + d3.max(data, function(d) { return d.properties.mag ; }));
 
       var inradians = function (degrees) {
         return degrees * (Math.PI / 180);
@@ -19,13 +18,13 @@ AFRAME.registerComponent('show-earthquakes', {
   			.range(['#FFF', '#F00'])
 
       var globeRadius = 2;
-      var scene = d3.select("#target");
+      var scene = d3.select('#target');
 
-      var earthquakes = scene.selectAll("a-cylinder")
+      var earthquakes = scene.selectAll('a-cylinder')
   			.data(data)
   			.enter()
-  			.append("a-cylinder")
-  			.classed("earthquake",true)
+  			.append('a-cylinder')
+  			.classed('earthquake',true)
   			.attrs({
   				position: function(d) {
             currentRadius = globeRadius + magnitudeScale(d.properties.mag)/2;
@@ -33,7 +32,7 @@ AFRAME.registerComponent('show-earthquakes', {
   					var x = currentRadius * Math.cos(inradians(d.geometry.coordinates[1])) * Math.cos(inradians(d.geometry.coordinates[0]));
             var y = currentRadius * Math.sin(inradians(d.geometry.coordinates[1]))
             var z = -(currentRadius * Math.cos(inradians(d.geometry.coordinates[1])) * Math.sin(inradians(d.geometry.coordinates[0])))
-  					return x + " " + y + " " + z
+  					return x + ' ' + y + ' ' + z
   				},
   				height: function(d) {
   					return magnitudeScale(d.properties.mag);
@@ -41,7 +40,7 @@ AFRAME.registerComponent('show-earthquakes', {
           rotation: function(d){
             var xRot = - (90 - d.geometry.coordinates[1])
             var yRot = - (90 - d.geometry.coordinates[0])
-            return xRot + " " + yRot + " 0"
+            return xRot + ' ' + yRot + ' 0'
           },
           radius: '0.02',
           color: function(d){

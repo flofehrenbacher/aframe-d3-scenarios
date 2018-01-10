@@ -1,6 +1,6 @@
 AFRAME.registerComponent('map', {
   init: function () {
-  	d3.csv("data/zaehlstellen-durchschnitt.csv", function(data) {
+  	d3.csv('data/zaehlstellen-durchschnitt.csv', function(data) {
 
   		var heightScale = d3.scaleLinear()
   			.domain([d3.min(data, function(d) { return d.DTV_Kfz_MobisSo_Q; }), d3.max(data, function(d) { return d.DTV_Kfz_MobisSo_Q; }) ])
@@ -14,13 +14,13 @@ AFRAME.registerComponent('map', {
   			.domain([47.2691,55.0572])
   			.range([0,-8.647])
 
-  		var scene = d3.select("a-scene");
+  		var scene = d3.select('a-scene');
 
-  		var cylinders = scene.selectAll("a-cylinder.cyl")
+  		var cylinders = scene.selectAll('a-cylinder.cyl')
   			.data(data)
   			.enter()
-  			.append("a-cylinder")
-  			.classed("cyl",true)
+  			.append('a-cylinder')
+  			.classed('cyl',true)
   			.attrs({
   				position: function(d) {
   					// returning x coordinate between 0 and 2
@@ -29,7 +29,7 @@ AFRAME.registerComponent('map', {
 
   					var y = heightScale(d.DTV_Kfz_MobisSo_Q) / 2;
 
-  					return x + " " + y + " " + z
+  					return x + ' ' + y + ' ' + z
   				},
   				radius: function(d) {
   					return 0.03
@@ -39,11 +39,11 @@ AFRAME.registerComponent('map', {
           },
   				color: function(d) {
   					if(heightScale(d.DTV_Kfz_MobisSo_Q)<0.3)
-  					return "rgb(0,255,0)"
+  					return 'rgb(0,255,0)'
   					if(heightScale(d.DTV_Kfz_MobisSo_Q)>0.6)
-  					return "rgb(255,0,0)"
+  					return 'rgb(255,0,0)'
   					else
-  					return "rgb(255,255,0)"
+  					return 'rgb(255,255,0)'
   				}
   			})
         /*
