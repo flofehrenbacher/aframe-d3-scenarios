@@ -4,9 +4,10 @@
     <title>Bundesländer Deutschland</title>
     <meta charset="utf-8"></meta>
     <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
-    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
     <script src="https://unpkg.com/aframe-geojson-component/dist/aframe-geojson-component.min.js"></script>
-  	<script src="components/counting-points.js"></script>
+    <script src="components/counting-points.js"></script>
   </head>
   <body>
     <a-scene>
@@ -26,7 +27,7 @@
         </a-entity>
       </a-entity>
       <a-sky color="#08F"></a-sky>
-      <a-camera position="4.5 0 0.5" id="camera" rotation="-45 0 0" user-height="5" wasd-controls-enabled="true" look-controls-enabled="false"></a-camera>
+      <a-entity camera="userHeight: 5" position="4.5 0 0.5" rotation="-45 0 0" wasd-controls="enabled: true" look-controls="enabled: true"></a-entity>
     </a-scene>
   </body>
 </html>

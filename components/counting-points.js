@@ -2,15 +2,15 @@ AFRAME.registerComponent('map', {
   init: function () {
   	d3.csv("data/zaehlstellen-durchschnitt.csv", function(data) {
 
-  		var heightScale = d3.scale.linear()
+  		var heightScale = d3.scaleLinear()
   			.domain([d3.min(data, function(d) { return d.DTV_Kfz_MobisSo_Q; }), d3.max(data, function(d) { return d.DTV_Kfz_MobisSo_Q; }) ])
   			.range([0,0.9])
 
-  		var longitudeScale = d3.scale.linear()
+  		var longitudeScale = d3.scaleLinear()
   			.domain([5.8721,15.0409])
   			.range([0,10.213])
 
-  		var latitudeScale = d3.scale.linear()
+  		var latitudeScale = d3.scaleLinear()
   			.domain([47.2691,55.0572])
   			.range([0,-8.647])
 
@@ -21,7 +21,7 @@ AFRAME.registerComponent('map', {
   			.enter()
   			.append("a-cylinder")
   			.classed("cyl",true)
-  			.attr({
+  			.attrs({
   				position: function(d) {
   					// returning x coordinate between 0 and 2
   					var x = longitudeScale(d.Koor_WGS84_E);
@@ -49,7 +49,7 @@ AFRAME.registerComponent('map', {
         /*
         .transition()
         .duration(5000)
-        .attr({
+        .attrs({
           height: function(d) {
             return heightScale(d.DTV_Kfz_MobisSo_Q)
           }

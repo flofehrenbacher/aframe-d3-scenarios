@@ -10,11 +10,11 @@ AFRAME.registerComponent('show-earthquakes', {
       var inradians = function (degrees) {
         return degrees * (Math.PI / 180);
       }
-      var magnitudeScale = d3.scale.linear()
+      var magnitudeScale = d3.scaleLinear()
   			.domain([d3.min(data, function(d) { return d.properties.mag ; }), d3.max(data, function(d) { return d.properties.mag ; }) ])
   			.range([0.1,0.5])
 
-      var colorScale = d3.scale.linear()
+      var colorScale = d3.scaleLinear()
   			.domain([d3.min(data, function(d) { return d.properties.mag ; }), d3.max(data, function(d) { return d.properties.mag ; }) ])
   			.range(['#FFF', '#F00'])
 
@@ -26,7 +26,7 @@ AFRAME.registerComponent('show-earthquakes', {
   			.enter()
   			.append("a-cylinder")
   			.classed("earthquake",true)
-  			.attr({
+  			.attrs({
   				position: function(d) {
             currentRadius = globeRadius + magnitudeScale(d.properties.mag)/2;
   					// convert lat(geometry[1]) and long(geometry[0]) in cartesian coordinates
