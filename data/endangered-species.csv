@@ -1,4 +1,4 @@
-rank,animal,number-left
+rank,animal,numbersleft
 1,Amur Leopard,40
 2,Javan Rhinoceros,60
 3,Panther,80
@@ -19,20 +19,3 @@ rank,animal,number-left
 18,North Pacific Right Whale,1000
 19,Cape Mountain Zebra,1500
 20,Bengal Tiger,2000
-21,Indian Rhinoceros,2500
-22,Grevy's Zebra,2000
-23,Snow Leopard,4000
-24,Gray Wolf,6600
-25,Sumatran Orangutan,7000
-26,Cheetah,7000
-27,Blue Whale,10000
-28,Polar Bears,20000
-29,American Bison,30000
-30,Bonobo,30000
-31,Borneo Orangutan,40000
-32,Tasmanian Devil,80000
-33,Narwhal,80000
-34,Beluga Whale,150000
-35,Chimpanzee,150000
-36,Sperm Whale,400000
-37,Asian Elephant,470000

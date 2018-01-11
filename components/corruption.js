@@ -2,7 +2,13 @@
 AFRAME.registerComponent('startd3', {
   init: function () {
     d3.csv('data/corruption.csv', function(data) {
-      console.log(data);
+      // convert strings to ints cpi2016,wef,gic,hdi2015
+      data.forEach(function(d) {
+        d.wef = +d.wef;
+        d.cpi2016 = +d.cpi2016;
+        d.hdi2015 = +d.hdi2015;
+        d.gic = +d.gic;
+      });
 
       var width = 10;
       var height = 10;
@@ -10,7 +16,7 @@ AFRAME.registerComponent('startd3', {
 
       // hdi 2015
       var xScale = d3.scaleLinear()
-        .domain([0, 24])
+        .domain([d3.min(data, function(d){ return d.hdi2015 }) , d3.max(data, function(d){ return d.hdi2015 })])
         .range([0 + boxDimension, width + boxDimension]);
 
       // colorScale
@@ -25,10 +31,6 @@ AFRAME.registerComponent('startd3', {
       var hdiColorScale = d3.scaleLinear()
         .domain([ d3.min(data, function(d){ return d.hdi2015 }) , d3.max(data, function(d){ return d.hdi2015 }) ])
         .range(['white','yellow']);
-
-      // TODO max 2015 hdi is not 9
-      console.log(d3.max(data, function(d){ return d.hdi2015 }));
-      console.log(d3.min(data, function(d){ return d.hdi2015 }));
 
       // cpi2016
       var yScale = d3.scaleLinear()
@@ -69,7 +71,7 @@ AFRAME.registerComponent('startd3', {
       countries
         .append('a-plane')
         .attrs({
-          color: function(d){ return wefColorScale(d.hdi2015)},
+          color: function(d){ return hdiColorScale(d.hdi2015)},
           position: '0 ' + -boxDimension/3 + ' 0',
           width: boxDimension,
           height: boxDimension/3

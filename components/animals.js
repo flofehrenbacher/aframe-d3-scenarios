@@ -1,35 +1,48 @@
 /* globals AFRAME */
 AFRAME.registerComponent('animals-d3', {
   init: function () {
-    // fake data
-    var data = [ 10, 20, 30, 15, 25, 35, 40,
-                45, 50, 70, 100, 120, 130,
-               12, 18, 22, 29, 33, 44, 59, 200]
+    d3.csv('data/endangered-species.csv', function(data) {
+      // convert strings to ints
+      data.forEach(function(d) {
+        d.numbersleft = +d.numbersleft;
+        d.rank = +d.rank;
+      });
 
-    var heightScale = d3.scaleLinear()
-      .domain([0, d3.max(data)])
-      .range([0,5])
+      console.log(d3.max(data, function(d){return d.numbersleft }));
 
-    var scene = d3.select('a-scene');
+      var heightScale = d3.scaleLinear()
+        .domain([0, d3.max(data, function(d){return d.numbersleft })])
+        .range([0,5]);
 
-    var cubes = scene.selectAll('a-cylinder.bar')
-      .data(data)
-      .enter()
-      .append('a-cylinder')
-      .classed('bar', true)
-      .attrs({
-        position: function(d,i) {
-          var radius = 10;
-          var angle = (i/data.length) * (2 * Math.PI)
-          var x = radius * Math.cos(angle);
-          var y = heightScale(d)/2;
-          var z = radius * Math.sin(angle);
-          return x + ' ' + y + ' ' + z
-        },
-        height: function(d,i) {
-          return heightScale(d)
-        },
-        color: '#AB8'
-      })
+      var colorScale = d3.scaleLinear()
+        .domain([0, d3.max(data, function(d){return d.numbersleft })/2, d3.max(data, function(d){return d.numbersleft })])
+        .range(['red','orange','green']);
+
+      console.log(heightScale(d3.max(data, function(d){return d.numbersleft })));
+
+      var scene = d3.select('a-scene');
+
+      var bars = scene.selectAll('a-cylinder.bar')
+        .data(data)
+        .enter()
+        .append('a-cylinder')
+        .classed('bar', true)
+        .attrs({
+          position: function(d,i) {
+            var radius = 10;
+            var angle = (i/data.length) * (2 * Math.PI) + Math.PI*1.5
+            var x = radius * Math.cos(angle);
+            var y = heightScale(d.numbersleft)/2;
+            var z = radius * Math.sin(angle);
+            return x + ' ' + y + ' ' + z
+          },
+          height: function(d) {
+            return heightScale(d.numbersleft)
+          },
+          color: function(d) {
+            return colorScale(d.numbersleft)
+          }
+        })
+    });
   }
 });
