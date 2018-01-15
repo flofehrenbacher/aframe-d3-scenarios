@@ -43,6 +43,7 @@ AFRAME.registerComponent('animals-d3', {
             return colorScale(d.numbersleft)
           }
         })
+          $('a-scene').fullscreen();
     });
   }
 });

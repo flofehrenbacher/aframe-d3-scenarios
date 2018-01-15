@@ -5,9 +5,18 @@
   <script src='https://aframe.io/releases/0.7.1/aframe.min.js'></script>
   <script src='https://d3js.org/d3.v4.min.js'></script>
   <script src='https://d3js.org/d3-selection-multi.v1.min.js'></script>
+  <meta name="viewport" content="width=devicewidth, minimal-ui">
   <script src='components/animals.js'></script>
+  <style>
+    /* this works */
+    a-scene:-webkit-full-screen	{ width: 100% }
+    a-scene:-moz-full-screen		{ width: 100% }
+    a-scene:-ms-full-screen		{ width: 100% }
+    a-scene:-o-full-screen		{ width: 100% }
+    a-scene:full-screen			{ width: 100% }
+  </style>
 </head>
-<body onload="setTimeout(function() { window.scrollTo(0, 1) }, 3000);">
+<body>
   <a-scene animals-d3>
     <a-assets>
       <img id='beach' src='assets/beach.jpg' />
