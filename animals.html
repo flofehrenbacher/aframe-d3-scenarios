@@ -7,10 +7,13 @@
   <script src='https://d3js.org/d3-selection-multi.v1.min.js'></script>
   <script src='components/animals.js'></script>
 </head>
-<body>
+<body onload="setTimeout(function() { window.scrollTo(0, 1) }, 100);">
   <a-scene animals-d3>
+    <a-assets>
+      <img id='beach' src='assets/beach.jpg' />
+    </a-assets>
     <a-entity light='type: point; color: #FF0; intensity: 1' position='0 5 0'></a-entity>
-    <a-sky color='white'></a-sky>
+    <a-sky src='#beach'></a-sky>
     <a-entity camera='userHeight: 1.6' look-controls wasd-controls></a-entity>
   </a-scene>
 </body>
