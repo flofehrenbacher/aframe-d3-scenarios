@@ -6,16 +6,40 @@
     <script src='https://aframe.io/releases/0.7.1/aframe.min.js'></script>
     <script src='https://d3js.org/d3.v4.min.js'></script>
     <script src='https://d3js.org/d3-selection-multi.v1.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   	<script src='https://unpkg.com/aframe-geojson-component/dist/aframe-geojson-component.min.js'></script>
   	<!-- allow user to rotate view around object -->
   	<script src='https://cdn.rawgit.com/tizzle/aframe-orbit-controls-component/v0.1.14/dist/aframe-orbit-controls-component.min.js'></script>
+    <script src="https://rawgit.com/bestiejs/platform.js/master/platform.js"></script>
+    <script src="https://rawgit.com/protyze/aframe-always-fullscreen-component/master/dist/aframe-always-fullscreen-component.min.js"></script>
+    <script src='mustache/mustache.min.js'></script>
     <script src='components/world.js'></script>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+      ul {
+        list-style-type: square;
+      }
+      #info-box {
+        z-index: 10;
+        height: 100vh;
+        width: 25vw;
+        padding: 1em;
+        background-color: rgba(100,100,100,0.6);
+        position: absolute;
+        color: white;
+      }
+    </style>
   </head>
   <body>
-    <a-scene>
+    <div id="info-box">
+      <h2>Info-Box</h2>
+      <p> Zeige auf einen Zylinder, um mehr Informationen über dieses Erdbeben zu bekommen.
+    </div>
+    <a-scene always-fullscreen>
       <a-assets>
-        <a-asset-item id='world' src='assets/world.geo.json' />
-        <img id='earth-lights' src='assets/earth-lights.png' />
+        <!-- <a-asset-item id='world' src='assets/world.geo.json' /> -->
         <img id='earth-texture' src='assets/earth-texture.jpg' />
       </a-assets>
       <a-entity id='target' position='0 0 -4' show-earthquakes>
@@ -26,7 +50,7 @@
       	  material='roughness: 1.0'
           earthquake-bar
 		    ></a-sphere>
-        <a-entity
+        <!-- <a-entity
           class='gazeactivated'
           geometry='primitive: sphere; radius: 2;'
           material='color: #FFF;'
@@ -34,19 +58,17 @@
                     line-width: 1;
                     featureKey: name;
                     featureEventName: raycaster-intersected;'
-		    ></a-entity>
+		    ></a-entity> -->
       </a-entity>
       <a-sky color='#000'></a-sky>
       <a-camera position='0 0 0' id='camera' rotation='0 0 0' user-height='0' wasd-controls-enabled='false' look-controls-enabled='false' orbit-controls='
               autoRotate: false;
               target: #target;
-              enableDamping: true;
-              dampingFactor: 0.125;
               rotateSpeed:0.2;
-              minDistance:1;
+              minDistance:2.2;
               maxDistance:5;
               ' >
-        <!--<a-cursor fuse objects='.gazeactivated' interval='1000'></a-cursor>-->
+              <a-entity raycaster geometry="primitive: ring; radiusOuter: 0.002; radiusInner: 0.001" position="0 0 -0.1"></a-entity>
       </a-camera>
     </a-scene>
   </body>
