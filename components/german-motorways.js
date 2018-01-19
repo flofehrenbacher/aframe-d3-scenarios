@@ -1,6 +1,6 @@
 AFRAME.registerComponent('map', {
   init: function () {
-  	d3.csv('data/zaehlstellen-durchschnitt.csv', function(data) {
+  	d3.csv('data/counting-points.csv', function(data) {
 
   		var heightScale = d3.scaleLinear()
   			.domain([d3.min(data, function(d) { return d.DTV_Kfz_MobisSo_Q; }), d3.max(data, function(d) { return d.DTV_Kfz_MobisSo_Q; }) ])

@@ -1,24 +1,19 @@
 /* globals AFRAME */
-AFRAME.registerComponent('animals-d3', {
+AFRAME.registerComponent('simple-d3-aframe', {
   init: function () {
-    d3.csv('data/animals.csv', function(data) {
+    d3.csv('data/simple-d3-aframe.csv', function(data) {
       // convert strings to ints
       data.forEach(function(d) {
         d.numbersleft = +d.numbersleft;
-        d.rank = +d.rank;
       });
-
-      console.log(d3.max(data, function(d){return d.numbersleft }));
 
       var heightScale = d3.scaleLinear()
         .domain([0, d3.max(data, function(d){return d.numbersleft })])
-        .range([0,5]);
+        .range([0,4]);
 
       var colorScale = d3.scaleLinear()
         .domain([0, d3.max(data, function(d){return d.numbersleft })/2, d3.max(data, function(d){return d.numbersleft })])
         .range(['red','orange','green']);
-
-      console.log(heightScale(d3.max(data, function(d){return d.numbersleft })));
 
       var scene = d3.select('a-scene');
 
@@ -28,22 +23,21 @@ AFRAME.registerComponent('animals-d3', {
         .append('a-cylinder')
         .classed('bar', true)
         .attrs({
-          radius: 0.8,
           position: function(d,i) {
-            var radius = 10;
-            var angle = (i/data.length) * (2 * Math.PI) + Math.PI*1.5
-            var x = radius * Math.cos(angle);
+            var x = i*0.5 - 4;
             var y = heightScale(d.numbersleft)/2;
-            var z = radius * Math.sin(angle);
+            var z = -4;
             return x + ' ' + y + ' ' + z
           },
+          radius: 0.2,
           height: function(d) {
             return heightScale(d.numbersleft)
           },
           color: function(d) {
             return colorScale(d.numbersleft)
-          }
-        });
+          },
+          shadow: ''
+        })
     });
   }
 });

@@ -1,5 +1,5 @@
 /* globals AFRAME */
-AFRAME.registerComponent('startd3', {
+AFRAME.registerComponent('corruption-d3', {
   init: function () {
     d3.csv('data/corruption.csv', function(data) {
       // convert strings to ints cpi2016,wef,gic,hdi2015
