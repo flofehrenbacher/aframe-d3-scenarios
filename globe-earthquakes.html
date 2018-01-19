@@ -10,8 +10,6 @@
   	<script src='https://unpkg.com/aframe-geojson-component/dist/aframe-geojson-component.min.js'></script>
   	<!-- allow user to rotate view around object -->
   	<script src='https://cdn.rawgit.com/tizzle/aframe-orbit-controls-component/v0.1.14/dist/aframe-orbit-controls-component.min.js'></script>
-    <script src="https://rawgit.com/bestiejs/platform.js/master/platform.js"></script>
-    <script src="https://rawgit.com/protyze/aframe-always-fullscreen-component/master/dist/aframe-always-fullscreen-component.min.js"></script>
     <script src='mustache/mustache.min.js'></script>
     <script src='components/world.js'></script>
     <style>
@@ -48,7 +46,6 @@
       	  radius='2'
           segments-height='53'
       	  material='roughness: 1.0'
-          earthquake-bar
 		    ></a-sphere>
         <!-- <a-entity
           class='gazeactivated'
@@ -61,14 +58,15 @@
 		    ></a-entity> -->
       </a-entity>
       <a-sky color='#000'></a-sky>
-      <a-camera position='0 0 0' id='camera' rotation='0 0 0' user-height='0' wasd-controls-enabled='true' look-controls-enabled='true' orbit-controls='
-              autoRotate: false;
-              target: #target;
-              rotateSpeed:0.2;
-              minDistance:2.2;
-              maxDistance:5;
-              ' >
-              <a-entity raycaster geometry="primitive: ring; radiusOuter: 0.002; radiusInner: 0.001" position="0 0 -0.1"></a-entity>
+      <a-camera position='0 0 0' id='camera' rotation='0 0 0' user-height='0'
+        wasd-controls-enabled='true' look-controls-enabled='true'
+        orbit-controls='autoRotate: false;
+          target: #target;
+          rotateSpeed:0.2;
+          minDistance:2.2;
+          maxDistance:5;'>
+        <a-entity raycaster geometry="primitive: ring; radiusOuter: 0.002;
+          radiusInner: 0.001" position="0 0 -0.1"></a-entity>
       </a-camera>
     </a-scene>
   </body>

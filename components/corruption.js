@@ -77,6 +77,17 @@ AFRAME.registerComponent('startd3', {
           height: boxDimension/3
         });
 
+      countries
+        .append('a-text')
+        .attrs({
+          value: function(d){ return d.country },
+          position: '0 ' + -2*boxDimension/3 + ' 0',
+          width: boxDimension,
+          height: boxDimension/3,
+          width: 4,
+          align: 'center'
+        });
+
     });
   }
 });
