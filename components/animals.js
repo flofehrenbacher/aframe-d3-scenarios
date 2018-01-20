@@ -1,32 +1,30 @@
 /* globals AFRAME */
 AFRAME.registerComponent('animals-d3', {
   init: function () {
-    d3.csv('data/animals.csv', function(data) {
-      // convert strings to ints
-      data.forEach(function(d) {
-        d.numbersleft = +d.numbersleft;
-        d.rank = +d.rank;
-      });
+    // for converting Strings to Ints
+    var rowConverter = function(d) {
+      return {
+        rank: parseInt(d.rank),
+        numbersleft: parseInt(d.numbersleft)
+      };
+    }
 
-      console.log(d3.max(data, function(d){return d.numbersleft }));
+    var heightScale = d3.scaleLinear()
+      .range([0,5]);
 
-      var heightScale = d3.scaleLinear()
-        .domain([0, d3.max(data, function(d){return d.numbersleft })])
-        .range([0,5]);
+    var colorScale = d3.scaleLinear()
+      .range(['red','orange','green']);
 
-      var colorScale = d3.scaleLinear()
-        .domain([0, d3.max(data, function(d){return d.numbersleft })/2, d3.max(data, function(d){return d.numbersleft })])
-        .range(['red','orange','green']);
-
-      console.log(heightScale(d3.max(data, function(d){return d.numbersleft })));
+    d3.csv('data/animals.csv', rowConverter, function(data) {
+      var maxNumbersleft = d3.max(data, function(d){return d.numbersleft });
+      heightScale.domain([0, maxNumbersleft]);
+      colorScale.domain([0, maxNumbersleft/2, maxNumbersleft]);
 
       var scene = d3.select('a-scene');
-
       var bars = scene.selectAll('a-cylinder.bar')
         .data(data)
         .enter()
         .append('a-cylinder')
-        .classed('bar', true)
         .attrs({
           radius: 0.8,
           position: function(d,i) {
@@ -38,7 +36,7 @@ AFRAME.registerComponent('animals-d3', {
             return x + ' ' + y + ' ' + z
           },
           height: function(d) {
-            return heightScale(d.numbersleft)
+            return heightScale(d.numbersleft);
           },
           color: function(d) {
             return colorScale(d.numbersleft)
