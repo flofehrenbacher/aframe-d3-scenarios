@@ -1,15 +1,16 @@
 /* globals AFRAME */
 AFRAME.registerComponent('corruption-d3', {
   init: function () {
-    d3.csv('data/corruption.csv', function(data) {
-      // convert strings to ints cpi2016,wef,gic,hdi2015
-      data.forEach(function(d) {
-        d.wef = +d.wef;
-        d.cpi2016 = +d.cpi2016;
-        d.hdi2015 = +d.hdi2015;
-        d.gic = +d.gic;
-      });
-
+    var rowConverter = function(d) {
+      return {
+        country: d.country,
+        cpi2016: parseInt(d.cpi2016),
+        hdi2015: parseInt(d.hdi2015),
+        gic: parseInt(d.gic),
+        wef: parseInt(d.wef)
+      };
+    }
+    d3.csv('data/corruption.csv', rowConverter, function(data) {
       var width = 10;
       var height = 10;
       var boxDimension = 10/data.length - 0.1;
@@ -43,15 +44,20 @@ AFRAME.registerComponent('corruption-d3', {
         .range([0 + boxDimension, width + boxDimension]);
 
       var scene = d3.select('#target');
-
-      var countries = scene.selectAll('a-plane')
+      var countries = scene.selectAll('a-entity.country')
         .data(data)
         .enter()
-        .append('a-plane')
+        .append('a-entity')
+        .classed('country',true)
         .attrs({
           position: function(d,i){
             return xScale(d.hdi2015) + ' ' + yScale(d.cpi2016) + ' ' + (-zScale(d.wef))
-          },
+          }
+        });
+
+      countries
+        .append('a-plane')
+        .attrs({
           width: boxDimension,
           height: boxDimension/3,
           color: function(d){
@@ -82,12 +88,37 @@ AFRAME.registerComponent('corruption-d3', {
         .attrs({
           value: function(d){ return d.country },
           position: '0 ' + -2*boxDimension/3 + ' 0',
-          width: boxDimension,
-          height: boxDimension/3,
           width: 4,
           align: 'center'
         });
 
+      countries
+        .on('click', function (d) {
+          var plane = d3.select('#camera')
+            .append('a-plane')
+            .classed('info-pane',true)
+            .attrs({
+              position: '0 0 -1',
+              width: 3
+            });
+
+          plane
+            .append('a-text')
+            .attrs({
+              value: (d.country +
+                    '\n hdi2015: ' + d.hdi2015 +
+                    '\n cpi2016: ' + d.cpi2016 +
+                    '\n wef:     ' + d.wef),
+              color: 'black',
+              position: '0 0 0',
+              width: 3,
+              align: 'center'
+            });
+
+          plane.on('click',function(){
+            d3.select('.info-pane').remove()
+          })
+        });
     });
   }
 });
