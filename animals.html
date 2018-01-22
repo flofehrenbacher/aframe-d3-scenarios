@@ -8,16 +8,20 @@
     <script src='https://d3js.org/d3-selection-multi.v1.min.js'></script>
     <script src="https://d3js.org/d3-ease.v1.min.js"></script>
     <script src="https://d3js.org/d3-transition.v1.min.js"></script>
+    <script src="https://unpkg.com/aframe-animation-component@4.0.0-beta8/dist/aframe-animation-component.min.js"></script>
     <script src='components/animals.js'></script>
   </head>
   <body>
     <a-scene animals-d3>
       <a-assets>
-        <img id='beach' src='assets/beach.jpg' />
+        <img id='beach' src='assets/forrest.jpg' />
       </a-assets>
       <a-entity light='type: point; color: #FF0; intensity: 1' position='0 5 0'></a-entity>
+      <a-ring id='start-plane' color='white' rotation='-90 0 0' radius-outer='6' radius-inner='5' position='0 0 0'></a-ring>
       <a-sky src='#beach'></a-sky>
-      <a-entity camera='userHeight: 1.6' look-controls wasd-controls></a-entity>
+      <a-entity camera='userHeight: 3' look-controls wasd-controls>
+        <a-cursor></a-cursor>
+      </a-entity>
     </a-scene>
   </body>
 </html>

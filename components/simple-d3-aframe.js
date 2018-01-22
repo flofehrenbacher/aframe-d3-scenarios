@@ -1,11 +1,19 @@
 AFRAME.registerComponent('simple-d3-aframe', {
   init: function () {
+    var rowConverter = function(d) {
+      return {
+        rank: parseInt(d.rank),
+        animal: d.animal,
+        numbersleft: parseInt(d.numbersleft)
+      };
+    }
+
     var heightScale = d3.scaleLinear()
       .range([0,4]);
     var colorScale = d3.scaleLinear()
       .range(['red','orange','green']);
 
-    d3.csv('data/simple-d3-aframe.csv', function(data) {
+    d3.csv('data/simple-d3-aframe.csv', rowConverter, function(data) {
       var maxNumbers = d3.max(data, function(d){ return d.numbersleft });
       heightScale.domain([0, maxNumbers]);
       colorScale.domain([0, maxNumbers/2, maxNumbers]);

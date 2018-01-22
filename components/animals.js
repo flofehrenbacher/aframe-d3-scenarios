@@ -28,12 +28,10 @@ AFRAME.registerComponent('animals-d3', {
         .attrs({
           radius: 0.8,
           position: function(d,i) {
-            var radius = 10;
-            var angle = (i/data.length) * (2 * Math.PI) + Math.PI*1.5
-            var x = radius * Math.cos(angle);
-            var y = heightScale(d.numbersleft)/2;
-            var z = radius * Math.sin(angle);
-            return x + ' ' + y + ' ' + z
+            var x = 2*i-10;
+            var y = (heightScale(d.numbersleft)/2).toFixed(3);
+            var z = -8;
+            return x + ' ' + y + ' ' + z;
           },
           height: function(d) {
             return heightScale(d.numbersleft);
@@ -41,7 +39,27 @@ AFRAME.registerComponent('animals-d3', {
           color: function(d) {
             return colorScale(d.numbersleft)
           }
+        })
+        .attr("animation", function(d,i){
+          var radius = 10;
+          var angle = (i/data.length) * (2 * Math.PI) + Math.PI*1.5;
+          var x = (radius * Math.cos(angle)).toFixed(3);
+          var y = (heightScale(d.numbersleft)/2).toFixed(3);
+          var z = (radius * Math.sin(angle)).toFixed(3);
+          return {'property': 'position',
+                  'dur': '2000',
+                  'to': x + ' ' + y + ' ' + z,
+                  'easing': 'easeInElastic',
+                  'startEvents': 'startAnim'
+                };
         });
+
+        d3.select('#start-plane')
+          .on('mouseenter',function(){
+            bars._groups[0].forEach(function(item, index, arr) {
+              item.emit('startAnim');
+            });
+          });
     });
   }
 });

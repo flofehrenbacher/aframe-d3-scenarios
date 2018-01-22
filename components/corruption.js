@@ -93,30 +93,25 @@ AFRAME.registerComponent('corruption-d3', {
         });
 
       countries
-        .on('click', function (d) {
-          var plane = d3.select('#camera')
-            .append('a-plane')
-            .classed('info-pane',true)
-            .attrs({
-              position: '0 0 -1',
-              width: 3
-            });
-
-          plane
+        .on('mouseenter', function (d) {
+          var selected = d3.select(this);
+          selected.attr('scale', '4 4 4');
+          selected
             .append('a-text')
+            .classed('detail',true)
             .attrs({
-              value: (d.country +
-                    '\n hdi2015: ' + d.hdi2015 +
-                    '\n cpi2016: ' + d.cpi2016 +
-                    '\n wef:     ' + d.wef),
+              value: ('hdi2015: ' + d.hdi2015 +
+                    '\n\n cpi2016: ' + d.cpi2016 +
+                    '\n\n wef:     ' + d.wef),
               color: 'black',
               position: '0 0 0',
-              width: 3,
+              width: 1.8,
               align: 'center'
             });
 
-          plane.on('click',function(){
-            d3.select('.info-pane').remove()
+          selected.on('mouseleave',function(){
+            selected.attr('scale', '1 1 1');
+            selected.selectAll('.detail').remove();
           })
         });
     });
