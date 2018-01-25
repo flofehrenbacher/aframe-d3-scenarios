@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Asyl and AFD</title>
+    <meta charset='utf-8'></meta>
+    <script src='https://aframe.io/releases/0.7.1/aframe.min.js'></script>
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+    <script src='https://d3js.org/d3-selection-multi.v1.min.js'></script>
+  	<script src='components/asyl-and-afd.js'></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-entity id='target'
+        scale='1 1 1'>
+      </a-entity>
+      <a-entity id='system'
+        asyl-and-afd>
+        <a-cylinder id='yAxis'
+          position='0 5 0'
+          height='10'
+          radius='0.05'
+          color='#991a1a'>
+        </a-cylinder>
+        <a-cylinder id='xAxis'
+          position='5 0 0'
+          rotation='0 0 -90'
+          height='10'
+          radius='0.05'
+          color='#543407'>
+        </a-cylinder>
+        <a-cylinder id='zAxis'
+          position='0 0 -5'
+          rotation='-90 0 0'
+          height='10'
+          radius='0.05'
+          color='#1b8424'>
+        </a-cylinder>
+      </a-entity>
+      <a-sky color='black'></a-sky>
+      <a-camera id='camera' position='5 5 9' id='camera' user-height='1'
+        universal-controls>
+        <a-plane id="general-info" position='2.2 1 -2' color='grey' width='1.4'>
+          <a-plane color='#1b8424' width='0.2' height='0.2' position='-0.5 0.3 0.01'>
+            <a-text value='Anträge in %' scale='0.5 0.5 0.5' color='black' position='0.2 0 0'></a-text>
+          </a-plane>
+          <a-plane color='#543407' width='0.2' height='0.2' position='-0.5 0 0.01'>
+            <a-text value='AFD in %' scale='0.5 0.5 0.5' color='black' position='0.2 0 0'></a-text>
+          </a-plane>
+          <a-plane color='#991a1a' width='0.2' height='0.2' position='-0.5 -0.3 0.01'>
+            <a-text value='Abschiebungen in %' scale='0.5 0.5 0.5' color='black' position='0.2 0 0'></a-text>
+          </a-plane>
+        </a-plane>
+        <a-cursor id="cursor" color="orange"></a-cursor>
+      </a-camera>
+    </a-scene>
+  </body>
+</html>
