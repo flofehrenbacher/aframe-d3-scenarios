@@ -9,17 +9,14 @@
     <script src='assets/offline/d3-selection-multi.v1.0.1.min.js'></script>
     <script src='assets/offline/d3-ease.v1.0.3.min.js'></script>
     <script src="assets/offline/d3-transition.v1.1.1.min.js"></script>
-    <script src='components/animals.js'></script>
+    <script src='components/afd-anteil.js'></script>
   </head>
   <body>
-    <a-scene animals-d3>
+    <a-scene afd-anteil>
       <a-assets>
-        <img id='beach' src='assets/forrest.jpg' />
       </a-assets>
-      <a-entity light='type: point; color: #FF0; intensity: 1' position='0 5 0'></a-entity>
-      <a-ring id='start-plane' color='white' rotation='-90 0 0' radius-outer='6' radius-inner='5' position='0 0 0'></a-ring>
-      <a-sky src='#beach'></a-sky>
-      <a-entity camera='userHeight: 3' look-controls wasd-controls>
+      <a-ring id='start-ring' color='grey' rotation='-90 0 0' radius-outer='4' radius-inner='3' position='0 0.1 0'></a-ring>
+      <a-entity camera='userHeight: 5' rotation='-10.5  20 0' look-controls wasd-controls>
         <a-cursor></a-cursor>
       </a-entity>
     </a-scene>
