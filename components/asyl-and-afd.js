@@ -110,9 +110,9 @@ AFRAME.registerComponent('asyl-and-afd', {
             .append('a-text')
             .classed('detail',true)
             .attrs({
-              value: ('Abschiebungen: ' + d.antraegeRel + '%'+
+              value: ('Anträge: ' + d.antraegeRel + '%'+
                     '\n\n\n AFD: ' + d.afderststimme + '%' +
-                    '\n\n\n Anträge: ' + d.abschiebungenRel + '%'),
+                    '\n\n\n Abschiebungen: ' + d.abschiebungenRel + '%'),
               color: 'black',
               position: '0 0 0',
               width: 1.2,
