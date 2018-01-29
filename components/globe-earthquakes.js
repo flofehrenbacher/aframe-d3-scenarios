@@ -2,7 +2,7 @@
 /* globals AFRAME */
 AFRAME.registerComponent('show-earthquakes', {
   init: function () {
-    d3.json('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson', function(worldData) {
+    d3.json('data/104earthquakes.geo.json', function(worldData) {
       var data = worldData.features;
 
       var inradians = function (degrees) {
