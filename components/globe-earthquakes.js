@@ -2,7 +2,7 @@
 /* globals AFRAME */
 AFRAME.registerComponent('show-earthquakes', {
   init: function () {
-    d3.json('data/8948earthquakes.geo.json', function(worldData) {
+    d3.json('data/104earthquakes.geo.json', function(worldData) {
       var data = worldData.features;
 
       var inradians = function (degrees) {
