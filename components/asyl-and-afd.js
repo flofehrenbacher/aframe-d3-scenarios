@@ -99,9 +99,19 @@ AFRAME.registerComponent('scatterplot', {
                 .classed('point', true)
                 .attrs({
                     position: function(d, i) {
-                        return xScale(d['x']) + ' ' + yScale(d['y']) + ' ' + (-zScale(d['z']))
+                        return '0 0 0'
                     }
                 });
+
+            points
+                .append('a-animation')
+                .attrs({
+                    attribute: 'position',
+                    to: function(d){
+                        return xScale(d['x']) + ' '+ yScale(d['y']) +' ' + (-zScale(d['z']));
+                    },
+                    dur: '2000'
+                })
 
             points
                 .append('a-plane')
