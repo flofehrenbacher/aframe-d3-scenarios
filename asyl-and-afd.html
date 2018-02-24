@@ -10,11 +10,10 @@
   </head>
   <body>
     <a-scene>
-      <a-entity id='target'
-        scale='1 1 1'>
-      </a-entity>
-      <a-entity id='system'
-        asyl-and-afd='dataSrc: data/asyl-and-afd.csv'>
+      <a-entity id='scatterplot'
+        scatterplot='datasrc: data/asyl-and-afd.csv; xattribute: afderststimme;
+            yattribute: antraegeRel; zattribute: abschiebungenRel; label: bundesland;
+            height: 10; width: 10; depth: 10;'>
         <a-cylinder id='yAxis'
           position='0 5 0'
           height='10'

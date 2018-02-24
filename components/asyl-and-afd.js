@@ -1,144 +1,165 @@
 /* globals AFRAME */
-AFRAME.registerComponent('asyl-and-afd', {
+AFRAME.registerComponent('scatterplot', {
     schema: {
-        dataSrc: {
+        datasrc: {
             type: 'asset'
+        },
+        xattribute: {
+            type: 'string'
+        },
+        yattribute: {
+            type: 'string'
+        },
+        zattribute: {
+            type: 'string'
+        },
+        label: {
+            type: 'string'
+        },
+        height: {
+            type: 'number'
+        },
+        depth: {
+            type: 'number'
+        },
+        width: {
+            type: 'number'
         }
     },
     init: function() {
+        var dataPointer = this.data;
+        var x = dataPointer.xattribute;
+        var y = dataPointer.yattribute;
+        var z = dataPointer.zattribute;
+        var label = dataPointer.label;
+        var width = dataPointer.width;
+        var height = dataPointer.height;
+        var depth = dataPointer.depth;
+        console.log(width);
         var rowConverter = function(d) {
             return {
-                bundesland: d.bundesland,
-                antraege: parseInt(d.antraege),
-                afderststimme: parseFloat(d.afderststimme),
-                abschiebungen: parseInt(d.abschiebungen),
-                antraegeRel: parseFloat(d.antraegeRel),
-                abschiebungenRel: parseFloat(d.abschiebungenRel)
+                label: d[label],
+                x: parseFloat(d[x]),
+                y: parseFloat(d[y]),
+                z: parseFloat(d[z])
             };
         }
-        var dataPointer = this.data;
-        d3.csv(dataPointer.dataSrc, rowConverter, function(data) {
-            var width = 10;
-            var height = 10;
-            var boxDimension = 10 / data.length - 0.1;
+        d3.csv(dataPointer.datasrc, rowConverter, function(data) {
+            var boxDimension = width / data.length - 0.1;
 
-            // AFD Anteil 2017 Erststimme
-            var minAfd = d3.min(data, function(d) {
-                return d.afderststimme
+            // xattribute
+            var minX = d3.min(data, function(d) {
+                return d['x'];
             });
-            var maxAfd = d3.max(data, function(d) {
-                return d.afderststimme
+            var maxX = d3.max(data, function(d) {
+                return d['x'];
             });
-
             var xScale = d3.scaleLinear()
-                .domain([minAfd, maxAfd])
+                .domain([minX, maxX])
                 .range([0 + boxDimension, width + boxDimension]);
 
-            var afdColorScale = d3.scaleLinear()
-                .domain([minAfd, maxAfd])
+            var xColorScale = d3.scaleLinear()
+                .domain([minX, maxX])
                 .range(['white', '#543407']);
 
-            // Asylanträge absolut 2016
-            var minAntraege = d3.min(data, function(d) {
-                return d.antraegeRel
+            // yattribute
+            var minY = d3.min(data, function(d) {
+                return d['y']
             });
-            var maxAntraege = d3.max(data, function(d) {
-                return d.antraegeRel
+            var maxY = d3.max(data, function(d) {
+                return d['y']
             });
-
-            var zScale = d3.scaleLinear()
-                .domain([minAntraege, maxAntraege])
-                .range([0 + boxDimension, width + boxDimension]);
-
-            var antraegeColorScale = d3.scaleLinear()
-                .domain([minAntraege, maxAntraege])
-                .range(['white', '#1b8424']);
-
-            // Abschiebungen absolut 2016
-            var minAbschiebungen = d3.min(data, function(d) {
-                return d.abschiebungenRel
-            })
-            var maxAbschiebungen = d3.max(data, function(d) {
-                return d.abschiebungenRel
-            })
-
-            var abschiebungenColorScale = d3.scaleLinear()
-                .domain([minAbschiebungen, maxAbschiebungen])
+            var yScale = d3.scaleLinear()
+                .domain([minY, maxY])
+                .range([0, height]);
+            var yColorScale = d3.scaleLinear()
+                .domain([minY, maxY])
                 .range(['white', '#991a1a']);
 
-            var yScale = d3.scaleLinear()
-                .domain([minAbschiebungen, maxAbschiebungen])
-                .range([0, height]);
+            // zattribute
+            var minZ = d3.min(data, function(d) {
+                return d['z']
+            });
+            var maxZ = d3.max(data, function(d) {
+                return d['z']
+            });
+            var zScale = d3.scaleLinear()
+                .domain([minZ, maxZ])
+                .range([0 + boxDimension, depth + boxDimension]);
+            var zColorScale = d3.scaleLinear()
+                .domain([minZ, maxZ])
+                .range(['white', '#1b8424']);
 
-            var scene = d3.select('#target');
-            var countries = scene.selectAll('a-entity.country')
+
+            var scatterplot = d3.select('#scatterplot');
+            var points = scatterplot.selectAll('a-entity.point')
                 .data(data)
                 .enter()
                 .append('a-entity')
-                .classed('country', true)
+                .classed('point', true)
                 .attrs({
                     position: function(d, i) {
-                        return xScale(d.afderststimme) + ' ' + yScale(d.abschiebungenRel) + ' ' + (-zScale(d.antraegeRel))
+                        return xScale(d['x']) + ' ' + yScale(d['y']) + ' ' + (-zScale(d['z']))
                     }
                 });
 
-            countries
+            points
                 .append('a-plane')
                 .attrs({
                     width: boxDimension,
                     height: boxDimension / 3,
                     color: function(d) {
-                        return afdColorScale(d.afderststimme);
+                        return xColorScale(d['x']);
                     }
                 });
 
-            countries
+            points
                 .append('a-plane')
                 .attrs({
                     color: function(d) {
-                        return antraegeColorScale(d.antraegeRel)
+                        return zColorScale(d['z'])
                     },
                     position: '0 ' + boxDimension / 3 + ' 0',
                     width: boxDimension,
                     height: boxDimension / 3
                 });
 
-            countries
+            points
                 .append('a-plane')
                 .attrs({
                     color: function(d) {
-                        return abschiebungenColorScale(d.abschiebungenRel)
+                        return yColorScale(d['y'])
                     },
                     position: '0 ' + -boxDimension / 3 + ' 0',
                     width: boxDimension,
                     height: boxDimension / 3
                 });
 
-            countries
+            points
                 .append('a-text')
                 .attrs({
                     value: function(d) {
-                        return d.bundesland
+                        return d['label']
                     },
-                    position: '0 ' + -2 * boxDimension / 3 + ' 0',
-                    width: 4,
+                    position: '0 ' + boxDimension + ' 0',
+                    width: 8,
                     align: 'center'
                 });
 
-            countries
+            points
                 .on('mouseenter', function(d) {
                     var selected = d3.select(this);
-                    selected.attr('scale', '5 5 5');
+                    selected.attr('scale', '7 7 7');
                     selected
                         .append('a-text')
                         .classed('detail', true)
                         .attrs({
-                            value: ('Anträge: ' + d.antraegeRel + '%' +
-                                '\n\n\n AFD: ' + d.afderststimme + '%' +
-                                '\n\n\n Abschiebungen: ' + d.abschiebungenRel + '%'),
+                            value: (y + ': ' + d['y'] +
+                                '\n\n\n' + x + ': ' + d['x'] +
+                                '\n\n\n' + z + ': ' + d['z']),
                             color: 'black',
                             position: '0 0 0',
-                            width: 1.2,
+                            width: 1,
                             align: 'center'
                         });
 
