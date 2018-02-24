@@ -104,6 +104,21 @@ AFRAME.registerComponent('scatterplot', {
                 });
 
             points
+                .append('a-text')
+                .classed('detail', true)
+                .attrs({
+                    value: function(d){
+                        return (y + ': ' + d['y'] +
+                            '\n\n\n' + x + ': ' + d['x'] +
+                            '\n\n\n' + z + ': ' + d['z']);
+                    },
+                    color: 'black',
+                    position: '0 0 0',
+                    width: 1,
+                    align: 'center'
+                });
+
+            points
                 .append('a-animation')
                 .attrs({
                     attribute: 'position',
@@ -160,22 +175,8 @@ AFRAME.registerComponent('scatterplot', {
                 .on('mouseenter', function(d) {
                     var selected = d3.select(this);
                     selected.attr('scale', '7 7 7');
-                    selected
-                        .append('a-text')
-                        .classed('detail', true)
-                        .attrs({
-                            value: (y + ': ' + d['y'] +
-                                '\n\n\n' + x + ': ' + d['x'] +
-                                '\n\n\n' + z + ': ' + d['z']),
-                            color: 'black',
-                            position: '0 0 0',
-                            width: 1,
-                            align: 'center'
-                        });
-
                     selected.on('mouseleave', function() {
                         selected.attr('scale', '1 1 1');
-                        selected.selectAll('.detail').remove();
                     })
                 });
         });
