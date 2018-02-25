@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Asyl and AFD</title>
+    <title>Scatter Plot</title>
     <meta charset='utf-8'></meta>
     <script src='assets/offline/aframe-v0.7.0.min.js'></script>
     <script src='assets/offline/d3-v4.12.2.min.js'></script>
     <script src='assets/offline/d3-selection-multi.v1.0.1.min.js'></script>
-  	<script src='components/asyl-and-afd.js'></script>
+  	<script src='components/scatterplot.js'></script>
   </head>
   <body>
     <a-scene>
       <a-entity id='scatterplot'
         scatterplot='datasrc: data/asyl-and-afd.csv; xattribute: afderststimme;
-            yattribute: antraegeRel; zattribute: abschiebungenRel; label: bundesland;
-            height: 10; width: 10; depth: 10;'>
+            yattribute: abschiebungenRel; zattribute: antraegeRel; label: bundesland;
+            height: 10; width: 10; depth: 10; labelled: true; dataPointWidth: 0.5'>
         <a-cylinder id='yAxis'
           position='0 5 0'
           height='10'
@@ -40,13 +40,13 @@
         universal-controls>
         <a-plane id="general-info" position='2.2 1 -2' color='grey' width='1.4'>
           <a-plane color='#1b8424' width='0.2' height='0.2' position='-0.5 0.3 0.01'>
-            <a-text value='Anträge in %' scale='0.5 0.5 0.5' color='black' position='0.2 0 0'></a-text>
+            <a-text id="z-axis" scale='0.5 0.5 0.5' color='black' position='0.2 0 0'></a-text>
           </a-plane>
           <a-plane color='#543407' width='0.2' height='0.2' position='-0.5 0 0.01'>
-            <a-text value='AFD in %' scale='0.5 0.5 0.5' color='black' position='0.2 0 0'></a-text>
+            <a-text id="x-axis" scale='0.5 0.5 0.5' color='black' position='0.2 0 0'></a-text>
           </a-plane>
           <a-plane color='#991a1a' width='0.2' height='0.2' position='-0.5 -0.3 0.01'>
-            <a-text value='Abschiebungen in %' scale='0.5 0.5 0.5' color='black' position='0.2 0 0'></a-text>
+            <a-text id="y-axis" scale='0.5 0.5 0.5' color='black' position='0.2 0 0'></a-text>
           </a-plane>
         </a-plane>
         <a-cursor id="cursor" color="orange"></a-cursor>
