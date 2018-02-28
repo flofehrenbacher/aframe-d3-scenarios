@@ -7,11 +7,16 @@ AFRAME.registerComponent('show-earthquakes', {
         },
         radiusOfGlobe: {
             type: 'int'
+        },
+        isBars: {
+            type: 'boolean',
+            default: true
         }
     },
     init: function() {
-        /* this.data is undefined after ajax call
-           to fix this store it as data to further access the schema properties */
+        this.initBarsAsCylinders();
+    },
+    initBarsAsCylinders: function() {
         var dataPointer = this.data;
 
         d3.json(dataPointer.dataSrc, function(worldData) {
@@ -30,7 +35,7 @@ AFRAME.registerComponent('show-earthquakes', {
 
             var magnitudeScale = d3.scaleLinear()
                 .domain([minMag, maxMag])
-                .range([0.1, 0.5]);
+                .range([0.1, 0.3]);
 
             var colorScale = d3.scaleLinear()
                 .domain([minMag, (maxMag + minMag) / 2, maxMag])
@@ -38,10 +43,10 @@ AFRAME.registerComponent('show-earthquakes', {
 
             var scene = d3.select('#target');
 
-            var earthquakes = scene.selectAll('a-cylinder')
+            var earthquakes = scene.selectAll('a-cone')
                 .data(data)
                 .enter()
-                .append('a-cylinder')
+                .append('a-cone')
                 .classed('earthquake', true)
                 .attrs({
                     height: function(d) {
@@ -62,7 +67,8 @@ AFRAME.registerComponent('show-earthquakes', {
                         var yRot = -(90 - d.geometry.coordinates[0])
                         return xRot + ' ' + yRot + ' 0'
                     },
-                    radius: '0.05',
+                    'radius-bottom': '0.05',
+                    'radius-top': '0.05',
                     color: function(d) {
                         return colorScale(d.properties.mag)
                     }
@@ -84,5 +90,39 @@ AFRAME.registerComponent('show-earthquakes', {
                 $('#info-box').html(rendered);
             });
         }
+    },
+    changeToCones: function(){
+        console.log("now");
+        var scene = d3.select('#target');
+        var earthquakes = scene.selectAll('a-cone')
+            .attrs({
+                'radius-bottom': '0.01',
+                'radius-top': '0'
+            })
+    },
+    changeToBars: function(){
+        console.log("now");
+        var scene = d3.select('#target');
+        var earthquakes = scene.selectAll('a-cone')
+            .attrs({
+                'radius-bottom': '0.05',
+                'radius-top': '0.05',
+            })
+    },
+    tick: function(){
+            var earth = this.el.components.position.attrValue;
+            var camera = this.el.sceneEl.querySelector("#camera").components.position.attrValue;
+            var distance = Math.sqrt(Math.pow(earth.x-camera.x,2)+
+                                    Math.pow(earth.y-camera.y,2)+
+                                    Math.pow(earth.z-camera.z,2));
+            console.log(distance);
+            if(distance<3 && this.data.isBars === true){
+                this.changeToCones();
+                this.data.isBars = false;
+            }
+            if(distance>=3 && this.data.isBars === false){
+                this.changeToBars();
+                this.data.isBars = true;
+            }
     }
 });
