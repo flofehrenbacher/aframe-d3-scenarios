@@ -186,16 +186,15 @@ AFRAME.registerComponent('elections', {
             d3.select(element).attr('scale', '1 1 1');
         });
     },
-    detailedBarchart: function(data) {
-        var wahlbeteiligung = data.wahlbeteiligung;
+    detailedBarchart: function(d) {
+        var wahlbeteiligung = d.wahlbeteiligung;
+        var bundesland = d.bundesland;
         var heightScale = d3.scaleLinear()
             .domain([0, 100])
             .range([0, 3]);
-        var bundesland = data.bundesland;
-        console.log(bundesland);
-        var data = data.parties;
-        var arr = Object.keys(data).map(function(key) {
-            return data[key];
+        var parties = data.parties;
+        var data = Object.keys(parties).map(function(key) {
+            return parties[key];
         });
         var colorParties = d3.scaleOrdinal()
             .range(['black', 'red', 'darkred', 'green', 'yellow', '#19bffc', 'grey']);
@@ -242,7 +241,7 @@ AFRAME.registerComponent('elections', {
             });
 
         var bars = scene.selectAll('a-cylinder')
-            .data(arr)
+            .data(data)
             .enter()
             .append('a-cylinder')
             .classed('detail', true)

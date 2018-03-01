@@ -26,6 +26,7 @@
         background-color: rgba(100,100,100,0.6);
         position: absolute;
         color: white;
+        display: none;
       }
     </style>
   </head>
@@ -34,12 +35,11 @@
       <h2>Info-Box</h2>
       <p> Zeige auf einen Zylinder, um mehr Informationen über dieses Erdbeben zu bekommen.
     </div>
-    <a-scene always-fullscreen>
+    <a-scene stats>
       <a-assets>
-        <!-- <a-asset-item id='world' src='assets/world.geo.json' /> -->
         <img id='earth-texture' src='assets/earth-texture.jpg' />
       </a-assets>
-      <a-entity id='target' position='0 0 -6' show-earthquakes='dataSrc: data/1495earthquakes.geo.json; radiusOfGlobe: 2'>
+      <a-entity id='target' position='0 0 -6' show-earthquakes='dataSrc: data/104earthquakes.geo.json; radiusOfGlobe: 2'>
       	<a-sphere
       	  src='#earth-texture'
       	  radius='2'
@@ -53,7 +53,7 @@
         orbit-controls='autoRotate: false;
           target: #target;
           rotateSpeed:0.2;
-          minDistance:2.2;
+          minDistance:2.5;
           maxDistance:5;'>
         <a-entity raycaster geometry="primitive: ring; radiusOuter: 0.002;
           radiusInner: 0.001" position="0 0 -0.1"></a-entity>

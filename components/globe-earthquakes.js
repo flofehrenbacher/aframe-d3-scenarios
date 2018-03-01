@@ -94,6 +94,7 @@ AFRAME.registerComponent('show-earthquakes', {
     changeToCones: function(){
         console.log("now");
         var scene = d3.select('#target');
+        $('#info-box').fadeIn();
         var earthquakes = scene.selectAll('a-cone')
             .attrs({
                 'radius-bottom': '0.01',
@@ -103,6 +104,7 @@ AFRAME.registerComponent('show-earthquakes', {
     changeToBars: function(){
         console.log("now");
         var scene = d3.select('#target');
+        $('#info-box').fadeOut();
         var earthquakes = scene.selectAll('a-cone')
             .attrs({
                 'radius-bottom': '0.05',
