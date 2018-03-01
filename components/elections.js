@@ -192,7 +192,7 @@ AFRAME.registerComponent('elections', {
         var heightScale = d3.scaleLinear()
             .domain([0, 100])
             .range([0, 3]);
-        var parties = data.parties;
+        var parties = d.parties;
         var data = Object.keys(parties).map(function(key) {
             return parties[key];
         });
