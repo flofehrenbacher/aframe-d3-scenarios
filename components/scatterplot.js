@@ -185,7 +185,7 @@ AFRAME.registerComponent('scatterplot', {
                             return d['label']
                         },
                         position: '0 ' + 2*(dataPointWidth/3) + ' 0',
-                        width: dataPointWidth * 6,
+                        width: dataPointWidth * 8,
                         align: 'center',
                         visible: function(d){
                             if(labelled === false){

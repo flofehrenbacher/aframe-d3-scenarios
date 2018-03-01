@@ -173,10 +173,21 @@ AFRAME.registerComponent('elections', {
                 .on('click', function(d) {
                     temp.detailedBarchart(d);
                 })
+
+            links
+                .on('mouseenter', function(){
+                    temp.hoverEffect(this);
+                });
         });
     },
-
+    hoverEffect: function(element){
+        d3.select(element).attr('scale', '1.4 1 1.4');
+        d3.select(element).on('mouseleave', function(){
+            d3.select(element).attr('scale', '1 1 1');
+        });
+    },
     detailedBarchart: function(data) {
+        var wahlbeteiligung = data.wahlbeteiligung;
         var heightScale = d3.scaleLinear()
             .domain([0, 100])
             .range([0, 3]);
@@ -193,18 +204,32 @@ AFRAME.registerComponent('elections', {
             .range(['Union', 'SPD', 'DIE LINKE', 'GRÜNE', 'FDP', 'AfD', 'Sonstige']);
 
         var scene = d3.select('#camera');
-        scene
+
+        var bundeslandText = scene
             .append('a-text')
             .classed('detail', true)
             .attrs({
                 value: function(){
-                    return bundesland
+                    return bundesland;
                 },
                 position: '0 -1 -3.5',
-                width: 20,
+                width: 18,
                 color: 'black',
                 align: 'center'
             })
+
+        bundeslandText
+        .append('a-text')
+        .classed('detail', true)
+        .attrs({
+            value: function(){
+                return 'Wahlbeteiligung ' + wahlbeteiligung + '%';
+            },
+            position: '0 -1 0',
+            width: 10,
+            color: 'black',
+            align: 'center'
+        });
 
         scene
             .append('a-plane')
@@ -261,7 +286,7 @@ AFRAME.registerComponent('elections', {
             .append('a-text')
             .attrs({
                 value: function(d) {
-                    return d
+                    return d;
                 },
                 color: 'black',
                 position: function(d) {
