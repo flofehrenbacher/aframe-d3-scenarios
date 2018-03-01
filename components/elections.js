@@ -1,6 +1,12 @@
 AFRAME.registerComponent('elections', {
+    schema: {
+        dataSrc: {
+            type: 'asset'
+        }
+    },
     init: function() {
-        var temp = this;
+        var pointer = this;
+
         var rowConverter = function(d) {
             return {
                 bundesland: d.Bundesland,
@@ -18,7 +24,7 @@ AFRAME.registerComponent('elections', {
                 longitude: parseFloat(d.longitude)
             };
         }
-        d3.csv('data/elections.csv', rowConverter, function(data) {
+        d3.csv(pointer.data.dataSrc, rowConverter, function(data) {
             var heightScale = d3.scaleLinear()
                 .domain([0, 100])
                 .range([0, 1]);
@@ -32,10 +38,10 @@ AFRAME.registerComponent('elections', {
                 .range([0, -8.647])
 
             var target = d3.select('#target');
-            var links = target.selectAll('a-link')
+            var container = target.selectAll('a-entity')
                 .data(data)
                 .enter()
-                .append('a-link')
+                .append('a-entity')
                 .classed('link', true)
                 .attrs({
                     position: function(d) {
@@ -46,7 +52,7 @@ AFRAME.registerComponent('elections', {
                     }
                 });
 
-            links
+            container
                 .append('a-text')
                 .attrs({
                     value: function(d) {
@@ -58,7 +64,7 @@ AFRAME.registerComponent('elections', {
                     rotation: '-20 0 0'
                 });
 
-            links
+            container
                 .append('a-cylinder')
                 .attrs({
                     color: 'black',
@@ -71,7 +77,7 @@ AFRAME.registerComponent('elections', {
                     radius: '0.2'
                 });
 
-            links
+            container
                 .append('a-cylinder')
                 .attrs({
                     color: 'red',
@@ -84,7 +90,7 @@ AFRAME.registerComponent('elections', {
                     radius: '0.2'
                 });
 
-            links
+            container
                 .append('a-cylinder')
                 .attrs({
                     color: 'darkred',
@@ -99,7 +105,7 @@ AFRAME.registerComponent('elections', {
                     radius: '0.2'
                 });
 
-            links
+            container
                 .append('a-cylinder')
                 .attrs({
                     color: 'green',
@@ -115,7 +121,7 @@ AFRAME.registerComponent('elections', {
                     radius: '0.2'
                 });
 
-            links
+            container
                 .append('a-cylinder')
                 .attrs({
                     color: 'yellow',
@@ -132,7 +138,7 @@ AFRAME.registerComponent('elections', {
                     radius: '0.2'
                 });
 
-            links
+            container
                 .append('a-cylinder')
                 .attrs({
                     color: '#19bffc',
@@ -150,7 +156,7 @@ AFRAME.registerComponent('elections', {
                     radius: '0.2'
                 });
 
-            links
+            container
                 .append('a-cylinder')
                 .attrs({
                     color: 'grey',
@@ -169,46 +175,45 @@ AFRAME.registerComponent('elections', {
                     radius: '0.2'
                 });
 
-            links
+            container
                 .on('click', function(d) {
-                    temp.detailedBarchart(d);
+                    pointer.detailedBarchart(d);
                 })
 
-            links
-                .on('mouseenter', function(){
-                    temp.hoverEffect(this);
+            container
+                .on('mouseenter', function() {
+                    pointer.hoverEffect(this);
                 });
         });
     },
-    hoverEffect: function(element){
+    hoverEffect: function(element) {
         d3.select(element).attr('scale', '1.4 1 1.4');
-        d3.select(element).on('mouseleave', function(){
+        d3.select(element).on('mouseleave', function() {
             d3.select(element).attr('scale', '1 1 1');
         });
     },
     detailedBarchart: function(d) {
         var wahlbeteiligung = d.wahlbeteiligung;
         var bundesland = d.bundesland;
-        var heightScale = d3.scaleLinear()
-            .domain([0, 100])
-            .range([0, 3]);
         var parties = d.parties;
         var data = Object.keys(parties).map(function(key) {
             return parties[key];
         });
         var colorParties = d3.scaleOrdinal()
             .range(['black', 'red', 'darkred', 'green', 'yellow', '#19bffc', 'grey']);
-
         var nameParties = d3.scaleOrdinal()
             .range(['Union', 'SPD', 'DIE LINKE', 'GRÜNE', 'FDP', 'AfD', 'Sonstige']);
 
-        var scene = d3.select('#camera');
+        var heightScale = d3.scaleLinear()
+            .domain([0, 100])
+            .range([0, 3]);
 
-        var bundeslandText = scene
+        var camera = d3.select('#camera');
+        var bundeslandText = camera
             .append('a-text')
             .classed('detail', true)
             .attrs({
-                value: function(){
+                value: function() {
                     return bundesland;
                 },
                 position: '0 -1 -3.5',
@@ -218,19 +223,19 @@ AFRAME.registerComponent('elections', {
             })
 
         bundeslandText
-        .append('a-text')
-        .classed('detail', true)
-        .attrs({
-            value: function(){
-                return 'Wahlbeteiligung ' + wahlbeteiligung + '%';
-            },
-            position: '0 -1 0',
-            width: 10,
-            color: 'black',
-            align: 'center'
-        });
+            .append('a-text')
+            .classed('detail', true)
+            .attrs({
+                value: function() {
+                    return 'Wahlbeteiligung ' + wahlbeteiligung + '%';
+                },
+                position: '0 -1 0',
+                width: 10,
+                color: 'black',
+                align: 'center'
+            });
 
-        scene
+        camera
             .append('a-plane')
             .classed('link', true)
             .classed('exit', true)
@@ -240,7 +245,7 @@ AFRAME.registerComponent('elections', {
                 color: 'white'
             });
 
-        var bars = scene.selectAll('a-cylinder')
+        var bars = camera.selectAll('a-cylinder')
             .data(data)
             .enter()
             .append('a-cylinder')
