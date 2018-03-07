@@ -1,6 +1,6 @@
 AFRAME.registerComponent('animation-test', {
     init: function() {
-        var testLength = 10;
+        var testLength = 100;
         var testData = [];
 
         var heightScale = d3.scaleLinear()

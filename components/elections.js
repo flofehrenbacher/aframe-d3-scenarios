@@ -15,7 +15,7 @@ AFRAME.registerComponent('elections', {
                     union: parseFloat(d.Union),
                     spd: parseFloat(d.SPD),
                     linke: parseFloat(d.DIE_LINKE),
-                    gruene: parseFloat(d.GRÜNE),
+                    gruene: parseFloat(d.GRUENE),
                     fdp: parseFloat(d.FDP),
                     afd: parseFloat(d.AfD),
                     sonstige: parseFloat(d.Sonstige)
@@ -202,7 +202,7 @@ AFRAME.registerComponent('elections', {
         var colorParties = d3.scaleOrdinal()
             .range(['black', 'red', 'darkred', 'green', 'yellow', '#19bffc', 'grey']);
         var nameParties = d3.scaleOrdinal()
-            .range(['Union', 'SPD', 'DIE LINKE', 'GRÜNE', 'FDP', 'AfD', 'Sonstige']);
+            .range(['Union', 'SPD', 'DIE LINKE', 'GRUENE', 'FDP', 'AfD', 'Sonstige']);
 
         var heightScale = d3.scaleLinear()
             .domain([0, 100])
