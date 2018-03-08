@@ -10,18 +10,45 @@ AFRAME.registerComponent('elections', {
         var rowConverter = function(d) {
             return {
                 bundesland: d.Bundesland,
-                wahlbeteiligung: parseFloat(d.Wahlbeteiligung),
-                parties: {
-                    union: parseFloat(d.Union),
-                    spd: parseFloat(d.SPD),
-                    linke: parseFloat(d.DIE_LINKE),
-                    gruene: parseFloat(d.GRUENE),
-                    fdp: parseFloat(d.FDP),
-                    afd: parseFloat(d.AfD),
-                    sonstige: parseFloat(d.Sonstige)
-                },
                 latitude: parseFloat(d.latitude),
-                longitude: parseFloat(d.longitude)
+                longitude: parseFloat(d.longitude),
+                wahlbeteiligung: parseFloat(d.Wahlbeteiligung),
+                parties: [{
+                        name: 'CDU/CSU',
+                        percentage: parseFloat(d.Union),
+                        color: 'black'
+                    },
+                    {
+                        name: 'SPD',
+                        percentage: parseFloat(d.SPD),
+                        color: 'red'
+                    },
+                    {
+                        name: 'DIE LINKE',
+                        percentage: parseFloat(d.DIE_LINKE),
+                        color: 'darkred'
+                    },
+                    {
+                        name: 'GRUENE',
+                        percentage: parseFloat(d.GRUENE),
+                        color: 'green'
+                    },
+                    {
+                        name: 'FDP',
+                        percentage: parseFloat(d.FDP),
+                        color: 'yellow'
+                    },
+                    {
+                        name: 'AfD',
+                        percentage: parseFloat(d.AfD),
+                        color: '#19bffc'
+                    },
+                    {
+                        name: 'Sonstige',
+                        percentage: parseFloat(d.Sonstige),
+                        color: 'grey'
+                    }
+                ]
             };
         }
         d3.csv(pointer.data.dataSrc, rowConverter, function(data) {
@@ -43,6 +70,9 @@ AFRAME.registerComponent('elections', {
                 .enter()
                 .append('a-entity')
                 .classed('link', true)
+                .attr('id', function(d) {
+                    return d.bundesland;
+                })
                 .attrs({
                     position: function(d) {
                         var x = longitudeScale(d.longitude);
@@ -64,116 +94,31 @@ AFRAME.registerComponent('elections', {
                     rotation: '-20 0 0'
                 });
 
-            container
-                .append('a-cylinder')
-                .attrs({
-                    color: 'black',
-                    height: function(d) {
-                        return heightScale(d.parties.union)
-                    },
-                    position: function(d) {
-                        return '0 ' + heightScale(d.parties.union) / 2 + ' 0'
-                    },
-                    radius: '0.2'
-                });
-
-            container
-                .append('a-cylinder')
-                .attrs({
-                    color: 'red',
-                    height: function(d) {
-                        return heightScale(d.parties.spd)
-                    },
-                    position: function(d) {
-                        return '0 ' + (heightScale(d.parties.union) + (heightScale(d.parties.spd) / 2)) + ' 0'
-                    },
-                    radius: '0.2'
-                });
-
-            container
-                .append('a-cylinder')
-                .attrs({
-                    color: 'darkred',
-                    height: function(d) {
-                        return heightScale(d.parties.linke)
-                    },
-                    position: function(d) {
-                        return '0 ' + (heightScale(d.parties.union) +
-                            heightScale(d.parties.spd) +
-                            (heightScale(d.parties.linke) / 2)) + ' 0'
-                    },
-                    radius: '0.2'
-                });
-
-            container
-                .append('a-cylinder')
-                .attrs({
-                    color: 'green',
-                    height: function(d) {
-                        return heightScale(d.parties.gruene)
-                    },
-                    position: function(d) {
-                        return '0 ' + (heightScale(d.parties.union) +
-                            heightScale(d.parties.spd) +
-                            heightScale(d.parties.linke) +
-                            (heightScale(d.parties.gruene) / 2)) + ' 0'
-                    },
-                    radius: '0.2'
-                });
-
-            container
-                .append('a-cylinder')
-                .attrs({
-                    color: 'yellow',
-                    height: function(d) {
-                        return heightScale(d.parties.fdp)
-                    },
-                    position: function(d) {
-                        return '0 ' + (heightScale(d.parties.union) +
-                            heightScale(d.parties.spd) +
-                            heightScale(d.parties.linke) +
-                            heightScale(d.parties.gruene) +
-                            (heightScale(d.parties.fdp) / 2)) + ' 0'
-                    },
-                    radius: '0.2'
-                });
-
-            container
-                .append('a-cylinder')
-                .attrs({
-                    color: '#19bffc',
-                    height: function(d) {
-                        return heightScale(d.parties.afd)
-                    },
-                    position: function(d) {
-                        return '0 ' + (heightScale(d.parties.union) +
-                            heightScale(d.parties.spd) +
-                            heightScale(d.parties.linke) +
-                            heightScale(d.parties.gruene) +
-                            heightScale(d.parties.fdp) +
-                            (heightScale(d.parties.afd) / 2)) + ' 0'
-                    },
-                    radius: '0.2'
-                });
-
-            container
-                .append('a-cylinder')
-                .attrs({
-                    color: 'grey',
-                    height: function(d) {
-                        return heightScale(d.parties.sonstige)
-                    },
-                    position: function(d) {
-                        return '0 ' + (heightScale(d.parties.union) +
-                            heightScale(d.parties.spd) +
-                            heightScale(d.parties.linke) +
-                            heightScale(d.parties.gruene) +
-                            heightScale(d.parties.fdp) +
-                            heightScale(d.parties.afd) +
-                            (heightScale(d.parties.sonstige) / 2)) + ' 0'
-                    },
-                    radius: '0.2'
-                });
+            data.forEach(function(item){
+                d3.select('#' + item.bundesland)
+                    .selectAll('a-cylinder.segment')
+                    .data(item.parties)
+                    .enter()
+                    .append('a-cylinder')
+                    .classed('segment', true)
+                    .attrs({
+                        color: function(d) {
+                            return d.color
+                        },
+                        height: function(d, i) {
+                            return heightScale(d.percentage)
+                        },
+                        position: function(d, i) {
+                            var yOffset = 0;
+                            for (var j = 0; j < i; j++) {
+                                yOffset = (yOffset + item.parties[j].percentage);
+                            }
+                            var y = heightScale(yOffset) + heightScale(d.percentage) / 2;
+                            return '0 ' + y + ' 0'
+                        },
+                        radius: '0.2'
+                    });
+            });
 
             container
                 .on('click', function(d) {
@@ -186,24 +131,15 @@ AFRAME.registerComponent('elections', {
                 });
         });
     },
+
     hoverEffect: function(element) {
         d3.select(element).attr('scale', '1.4 1 1.4');
         d3.select(element).on('mouseleave', function() {
             d3.select(element).attr('scale', '1 1 1');
         });
     },
-    detailedBarchart: function(d) {
-        var wahlbeteiligung = d.wahlbeteiligung;
-        var bundesland = d.bundesland;
-        var parties = d.parties;
-        var data = Object.keys(parties).map(function(key) {
-            return parties[key];
-        });
-        var colorParties = d3.scaleOrdinal()
-            .range(['black', 'red', 'darkred', 'green', 'yellow', '#19bffc', 'grey']);
-        var nameParties = d3.scaleOrdinal()
-            .range(['Union', 'SPD', 'DIE LINKE', 'GRUENE', 'FDP', 'AfD', 'Sonstige']);
 
+    detailedBarchart: function(state) {
         var heightScale = d3.scaleLinear()
             .domain([0, 100])
             .range([0, 3]);
@@ -214,7 +150,7 @@ AFRAME.registerComponent('elections', {
             .classed('detail', true)
             .attrs({
                 value: function() {
-                    return bundesland;
+                    return state.bundesland;
                 },
                 position: '0 -1 -3.5',
                 width: 18,
@@ -227,7 +163,7 @@ AFRAME.registerComponent('elections', {
             .classed('detail', true)
             .attrs({
                 value: function() {
-                    return 'Wahlbeteiligung ' + wahlbeteiligung + '%';
+                    return 'Wahlbeteiligung ' + state.wahlbeteiligung + '%';
                 },
                 position: '0 -1 0',
                 width: 10,
@@ -246,7 +182,7 @@ AFRAME.registerComponent('elections', {
             });
 
         var bars = camera.selectAll('a-cylinder')
-            .data(data)
+            .data(state.parties)
             .enter()
             .append('a-cylinder')
             .classed('detail', true)
@@ -256,32 +192,33 @@ AFRAME.registerComponent('elections', {
                     var x = -3 + i;
                     var y = 0;
                     var z = -3;
-                    return x + ' ' + heightScale(d) / 2 + ' ' + z;
+                    return x + ' ' + heightScale(d.percentage) / 2 + ' ' + z;
                 },
                 radius: function(d) {
                     return 0.1
                 },
                 color: function(d) {
-                    return colorParties(d);
-                }
+                    return d.color;
+                },
+                height: 0
             });
 
         bars
             .transition()
             .duration(2000)
             .attr('height', function(d) {
-                return heightScale(d);
+                return heightScale(d.percentage);
             });
 
         bars
             .append('a-text')
             .attrs({
                 value: function(d) {
-                    return nameParties(d);
+                    return d.name;
                 },
                 color: 'black',
                 position: function(d) {
-                    return '0 ' + (-heightScale(d) / 2 - 0.1) + ' 0'
+                    return '0 ' + (-heightScale(d.percentage) / 2 - 0.1) + ' 0'
                 },
                 align: 'center'
             });
@@ -290,11 +227,11 @@ AFRAME.registerComponent('elections', {
             .append('a-text')
             .attrs({
                 value: function(d) {
-                    return d;
+                    return d.percentage;
                 },
                 color: 'black',
                 position: function(d) {
-                    return '0 ' + (heightScale(d) / 2 + 0.2) + ' 0'
+                    return '0 ' + (heightScale(d.percentage) / 2 + 0.2) + ' 0'
                 },
                 align: 'center'
             })
