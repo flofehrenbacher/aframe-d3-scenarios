@@ -25,10 +25,9 @@
             </a-entity>
         </a-entity>
         <a-sky color='#FFF'></a-sky>
-        <a-entity id="camera" camera='userHeight: 3' position='4.5 0 2' rotation='-30 0 0' wasd-controls='enabled: true' look-controls='enabled: true'>
-            <a-entity cursor raycaster="objects: .link; far: 10" geometry="primitive: ring; radiusOuter: 0.002;
-              radiusInner: 0.001" position="0 0 -0.1"></a-entity>
-        </a-entity>
+        <a-camera id="camera" user-height='3' position='4.5 0 2' rotation='-30 0 0'>
+            <a-cursor raycaster="objects: .clickable"></a-cursor>
+        </a-camera>
     </a-scene>
 </body>
 

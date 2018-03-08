@@ -69,7 +69,7 @@ AFRAME.registerComponent('elections', {
                 .data(data)
                 .enter()
                 .append('a-entity')
-                .classed('link', true)
+                .classed('clickable', true)
                 .attr('id', function(d) {
                     return d.bundesland;
                 })
@@ -133,7 +133,7 @@ AFRAME.registerComponent('elections', {
     },
 
     hoverEffect: function(element) {
-        d3.select(element).attr('scale', '1.4 1 1.4');
+        d3.select(element).attr('scale', '1.5 1.5 1.5');
         d3.select(element).on('mouseleave', function() {
             d3.select(element).attr('scale', '1 1 1');
         });
@@ -173,7 +173,7 @@ AFRAME.registerComponent('elections', {
 
         camera
             .append('a-plane')
-            .classed('link', true)
+            .classed('clickable', true)
             .classed('exit', true)
             .classed('detail', true)
             .attrs({
