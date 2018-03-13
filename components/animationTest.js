@@ -1,6 +1,7 @@
 AFRAME.registerComponent('animation-test', {
     init: function() {
-        var testLength = 100;
+        var testLength = 10;
+        var animationDuration = 3000;
         var testData = [];
 
         var heightScale = d3.scaleLinear()
@@ -40,9 +41,8 @@ AFRAME.registerComponent('animation-test', {
         var start = performance.now();
 
         /* ######################## ANIMATION USING D3 ###################### */
-        // bars
-        //     .transition()
-        //     .duration(3000)
+        // bars.transition()
+        //     .duration(animationDuration)
         //     .attr('height', function(d) {
         //         return heightScale(d).toFixed(3)
         //     })
@@ -51,38 +51,36 @@ AFRAME.registerComponent('animation-test', {
         //             var end = performance.now();
         //             console.log("ANIMATION USING D3");
         //             console.log("TESTLENGTH: " + testLength);
-        //             console.log("ended after " + (end - start));
+        //             console.log("RESULT " + ((end - start) - animationDuration));
         //         }
         //     });
 
         /* ################ ANIMATION USING NATIVE AFRAME ################### */
-        bars
-            .append('a-animation')
+        bars.append('a-animation')
             .attrs({
                 attribute: 'height',
                 to: function(d) {
                     return heightScale(d).toFixed(3)
                 },
-                dur: '3000'
-            })
+                dur: animationDuration
+            });
         counter = 1;
         document.addEventListener('animationend', function(event) {
             if (counter == testLength) {
                 var end = performance.now();
                 console.log("ANIMATION USING NATIVE AFRAME");
                 console.log("TESTLENGTH: " + testLength);
-                console.log("ended after " + (end - start));
+                console.log("RESULT " + ((end - start) - animationDuration));
             }
             counter++;
         });
 
         /* ################ ANIMATION USING ANIMATION COMPONENT AFRAME ###### */
-        // bars
-        //     .attrs({
+        // bars.attrs({
         //         animation: function(d, i) {
         //             return {
         //                 'property': 'height',
-        //                 'dur': '3000',
+        //                 'dur': animationDuration,
         //                 'to': heightScale(d).toFixed(3),
         //                 'autoplay': 'true'
         //             };
@@ -94,7 +92,7 @@ AFRAME.registerComponent('animation-test', {
         //         var end = performance.now();
         //         console.log("ANIMATION USING COMPONENT AFRAME");
         //         console.log("TESTLENGTH: " + testLength);
-        //         console.log("ended after " + (end - start));
+        //         console.log("RESULT " + ((end - start) - animationDuration));
         //     }
         //     counter++;
         // });

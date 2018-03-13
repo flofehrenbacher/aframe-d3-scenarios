@@ -1,7 +1,7 @@
 /* globals AFRAME */
 AFRAME.registerComponent('scatterplot', {
     schema: {
-        datasrc: {
+        src: {
             type: 'asset'
         },
         xattribute: {
@@ -16,24 +16,31 @@ AFRAME.registerComponent('scatterplot', {
         label: {
             type: 'string'
         },
+        width: {
+            type: 'number',
+            default: 10
+        },
         height: {
-            type: 'number'
+            type: 'number',
+            default: 10
         },
         depth: {
-            type: 'number'
+            type: 'number',
+            default: 10
         },
-        width: {
-            type: 'number'
+        labeled: {
+            type: 'boolean',
+            default: true
         },
-        labelled: {
-            type: 'boolean'
-        },
-        dataPointWidth: {
-            type: 'number'
+        dataFlagSize: {
+            type: 'number',
+            default: 1
         }
     },
     init: function() {
+        var scatterplot = d3.select(this.el);
         var dataPointer = this.data;
+        var src = dataPointer.src;
         var x = dataPointer.xattribute;
         var y = dataPointer.yattribute;
         var z = dataPointer.zattribute;
@@ -42,7 +49,7 @@ AFRAME.registerComponent('scatterplot', {
         var height = dataPointer.height;
         var depth = dataPointer.depth;
         var labelled = dataPointer.labelled;
-        var dataPointWidth = dataPointer.dataPointWidth;
+        var dataFlagSize = dataPointer.dataFlagSize;
         var rowConverter = function(d) {
             return {
                 label: d[label],
@@ -61,9 +68,7 @@ AFRAME.registerComponent('scatterplot', {
         d3.select('#z-axis')
             .attr('value', z);
 
-        d3.csv(dataPointer.datasrc, rowConverter, function(data) {
-            var dataPointWidth = dataPointer.dataPointWidth;
-            console.log(data);
+        d3.csv(src, rowConverter, function(data) {
             // xattribute
             var minX = d3.min(data, function(d) {
                 return d['x'];
@@ -73,7 +78,7 @@ AFRAME.registerComponent('scatterplot', {
             });
             var xScale = d3.scaleLinear()
                 .domain([minX, maxX])
-                .range([0 + dataPointWidth, width + dataPointWidth]);
+                .range([0 + (dataFlagSize/2), width - (dataFlagSize/2)]);
 
             var xColorScale = d3.scaleLinear()
                 .domain([minX, maxX])
@@ -88,7 +93,8 @@ AFRAME.registerComponent('scatterplot', {
             });
             var yScale = d3.scaleLinear()
                 .domain([minY, maxY])
-                .range([0, height]);
+                .range([0 + (dataFlagSize/2), width - (dataFlagSize/2)]);
+
             var yColorScale = d3.scaleLinear()
                 .domain([minY, maxY])
                 .range(['white', '#991a1a']);
@@ -102,13 +108,12 @@ AFRAME.registerComponent('scatterplot', {
             });
             var zScale = d3.scaleLinear()
                 .domain([minZ, maxZ])
-                .range([0 + dataPointWidth, depth + dataPointWidth]);
+                .range([0, depth]);
             var zColorScale = d3.scaleLinear()
                 .domain([minZ, maxZ])
                 .range(['white', '#1b8424']);
 
 
-            var scatterplot = d3.select('#scatterplot');
             var points = scatterplot.selectAll('a-entity.point')
                 .data(data)
                 .enter()
@@ -120,8 +125,7 @@ AFRAME.registerComponent('scatterplot', {
                     }
                 });
 
-            points
-                .append('a-text')
+            points.append('a-text')
                 .classed('detail', true)
                 .attrs({
                     value: function(d) {
@@ -131,12 +135,11 @@ AFRAME.registerComponent('scatterplot', {
                     },
                     color: 'black',
                     position: '0 0 0',
-                    width: dataPointWidth * 2,
+                    width: dataFlagSize * 2,
                     align: 'center'
                 });
 
-            points
-                .append('a-animation')
+            points.append('a-animation')
                 .attrs({
                     attribute: 'position',
                     to: function(d) {
@@ -145,78 +148,72 @@ AFRAME.registerComponent('scatterplot', {
                     dur: '2000'
                 })
 
-            points
-                .append('a-plane')
+            points.append('a-plane')
                 .attrs({
-                    width: dataPointWidth,
-                    height: dataPointWidth / 3,
+                    width: dataFlagSize,
+                    height: dataFlagSize / 3,
                     color: function(d) {
                         return xColorScale(d['x']);
                     }
                 });
 
-            points
-                .append('a-plane')
+            points.append('a-plane')
                 .attrs({
                     color: function(d) {
                         return zColorScale(d['z'])
                     },
-                    position: '0 ' + dataPointWidth / 3 + ' 0',
-                    width: dataPointWidth,
-                    height: dataPointWidth / 3
+                    position: '0 ' + dataFlagSize / 3 + ' 0',
+                    width: dataFlagSize,
+                    height: dataFlagSize / 3
                 });
 
-            points
-                .append('a-plane')
+            points.append('a-plane')
                 .attrs({
                     color: function(d) {
                         return yColorScale(d['y'])
                     },
-                    position: '0 ' + -dataPointWidth / 3 + ' 0',
-                    width: dataPointWidth,
-                    height: dataPointWidth / 3
+                    position: '0 ' + -dataFlagSize / 3 + ' 0',
+                    width: dataFlagSize,
+                    height: dataFlagSize / 3
                 });
 
-                points
-                    .append('a-text')
-                    .classed('label', true)
-                    .attrs({
-                        value: function(d) {
-                            return d['label']
-                        },
-                        position: '0 ' + 2*(dataPointWidth/3) + ' 0',
-                        width: dataPointWidth * 8,
-                        align: 'center',
-                        visible: function(d){
-                            if(labelled === false){
-                                return false;
-                            } else {
-                                return true;
-                            }
+            points.append('a-text')
+                .classed('label', true)
+                .attrs({
+                    value: function(d) {
+                        return d['label']
+                    },
+                    position: '0 ' + 2.2 * (dataFlagSize / 3) + ' 0',
+                    width: dataFlagSize * 8,
+                    align: 'center',
+                    visible: function(d) {
+                        if (labelled === false) {
+                            return false;
+                        } else {
+                            return true;
                         }
-                    });
-
-            points
-                .on('click', function(d) {
-                    var selected = d3.select(this);
-                    var all = scatterplot.selectAll('a-entity.point');
-                    if(labelled === false){
-                        selected.select('a-text.label')
-                            .attr('visible', true);
                     }
-                    all
-                        .attr('visible', false);
-                    selected.attr('scale', '7 7 7')
-                        .attr('visible', true);
-                    selected.on('click', function() {
-                        selected.attr('scale', '1 1 1');
-                        all.attr('visible', true);
-                        if(labelled === false){
-                            selected.select('a-text.label')
-                                .attr('visible', false);
-                        }
-                    })
                 });
+
+            points.on('click', function(d) {
+                var selected = d3.select(this);
+                var all = scatterplot.selectAll('a-entity.point');
+                if (labelled === false) {
+                    selected.select('a-text.label')
+                        .attr('visible', true);
+                }
+                all.attr('visible', false);
+                selected.attr('scale', '7 7 7')
+                    .attr('visible', true);
+                selected.on('click', function() {
+                    selected.attr('scale', '1 1 1');
+                    all.attr('visible', true);
+                    if (labelled === false) {
+                        selected.select('a-text.label')
+                            .attr('visible', false);
+                    }
+                });
+            });
         });
     }
 });

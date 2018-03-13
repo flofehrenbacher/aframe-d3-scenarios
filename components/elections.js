@@ -82,8 +82,7 @@ AFRAME.registerComponent('elections', {
                     }
                 });
 
-            container
-                .append('a-text')
+            container.append('a-text')
                 .attrs({
                     value: function(d) {
                         return d.bundesland
@@ -120,13 +119,11 @@ AFRAME.registerComponent('elections', {
                     });
             });
 
-            container
-                .on('click', function(d) {
+            container.on('click', function(d) {
                     pointer.detailedBarchart(d);
                 })
 
-            container
-                .on('mouseenter', function() {
+            container.on('mouseenter', function() {
                     pointer.hoverEffect(this);
                 });
         });
@@ -145,8 +142,7 @@ AFRAME.registerComponent('elections', {
             .range([0, 3]);
 
         var camera = d3.select('#camera');
-        var bundeslandText = camera
-            .append('a-text')
+        var bundeslandText = camera.append('a-text')
             .classed('detail', true)
             .attrs({
                 value: function() {
@@ -158,8 +154,7 @@ AFRAME.registerComponent('elections', {
                 align: 'center'
             })
 
-        bundeslandText
-            .append('a-text')
+        bundeslandText.append('a-text')
             .classed('detail', true)
             .attrs({
                 value: function() {
@@ -171,8 +166,7 @@ AFRAME.registerComponent('elections', {
                 align: 'center'
             });
 
-        camera
-            .append('a-plane')
+        camera.append('a-plane')
             .classed('clickable', true)
             .classed('exit', true)
             .classed('detail', true)
@@ -203,15 +197,13 @@ AFRAME.registerComponent('elections', {
                 height: 0
             });
 
-        bars
-            .transition()
-            .duration(2000)
+        bars.transition()
+            .duration(3000)
             .attr('height', function(d) {
                 return heightScale(d.percentage);
             });
 
-        bars
-            .append('a-text')
+        bars.append('a-text')
             .attrs({
                 value: function(d) {
                     return d.name;
@@ -223,8 +215,7 @@ AFRAME.registerComponent('elections', {
                 align: 'center'
             });
 
-        bars
-            .append('a-text')
+        bars.append('a-text')
             .attrs({
                 value: function(d) {
                     return d.percentage;
