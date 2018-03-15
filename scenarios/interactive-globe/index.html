@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Interactive Globe</title>
+    <meta charset='utf-8'></meta>
+    <script src='../../scripts/aframe-v0.7.0.min.js'></script>
+    <script src='../../scripts/d3-v4.12.2.min.js'></script>
+    <script src='../../scripts/d3-selection-multi.v1.0.1.min.js'></script>
+    <script src='../../scripts/jquery-v3.2.1.min.js'></script>
+    <!-- allow user to rotate view around object -->
+    <script src='../../scripts/aframe-orbit-controls-component.min.js'></script>
+    <script src='mustache/mustache.min.js'></script>
+    <script src='interactive-globe.js'></script>
+    <link rel="stylesheet" href='style.css'></link>
+</head>
+
+<body>
+    <div id="info-box">
+        <h2>Info-Box</h2>
+        <p> Zeige auf einen Zylinder, um mehr Informationen über dieses Erdbeben zu bekommen.
+    </div>
+    <a-scene stats>
+        <a-assets>
+            <img id='earth-texture' src='assets/earth-texture.jpg' />
+            <a-asset-item id='earthquake-data' src='assets/10000earthquakes.geojson' />
+        </a-assets>
+        <a-entity id='target' position='0 0 -6'
+            show-earthquakes='src: #earthquake-data; radiusOfGlobe: 2; numberOfEarthquakes: 100'>
+            <a-sphere src='#earth-texture' radius='2' segments-height='53' material='roughness: 1.0'></a-sphere>
+        </a-entity>
+        <a-sky color='#000'></a-sky>
+        <a-camera position='0 0 0' id='camera' rotation='0 0 0' user-height='0' wasd-controls-enabled='true' look-controls-enabled='true' orbit-controls='autoRotate: false;
+          target: #target;
+          rotateSpeed:0.2;
+          minDistance:2.5;
+          maxDistance:5;'>
+            <a-entity raycaster geometry="primitive: ring; radiusOuter: 0.002;
+          radiusInner: 0.001" position="0 0 -0.1"></a-entity>
+        </a-camera>
+    </a-scene>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>3D Scatterplot</title>
+    <meta charset='utf-8'></meta>
+    <script src='../../scripts/aframe-v0.7.0.min.js'></script>
+    <script src='../../scripts/d3-v4.12.2.min.js'></script>
+    <script src='../../scripts/d3-selection-multi.v1.0.1.min.js'></script>
+    <script src='scatterplot.js'></script>
+</head>
+
+<body>
+    <a-scene>
+        <a-assets>
+            <a-asset-item id="data" src="assets/hdi.csv"></a-asset-item>
+        </a-assets>
+        <a-entity id='scatterplot-frame' scatterplot='src: #data; xattribute: hdi;
+            yattribute: life-expectancy; zattribute: school-years; label: country; dataFlagSize: 0.2'>
+            <a-cylinder id='yAxis' position='0 5 0' height='10' radius='0.05' color='#991a1a'>
+            </a-cylinder>
+            <a-cylinder id='xAxis' position='5 0 0' rotation='0 0 -90' height='10' radius='0.05' color='#543407'>
+            </a-cylinder>
+            <a-cylinder id='zAxis' position='0 0 -5' rotation='-90 0 0' height='10' radius='0.05' color='#1b8424'>
+            </a-cylinder>
+        </a-entity>
+        <a-sky color='black'></a-sky>
+        <a-camera id='camera' position='5 5 9' user-height='1' wasd-controls="adAxis: y">
+            <a-plane id="general-info" scale="0.015 0.015 0" position='0.03 0.015 -0.03' color='grey' width='1.4'>
+                <a-plane color='#1b8424' width='0.2' height='0.2' position='-0.5 0.3 0.01'>
+                    <a-text id="z-axis" scale='0.5 0.5 0.5' color='black' position='0.2 0 0'></a-text>
+                </a-plane>
+                <a-plane color='#543407' width='0.2' height='0.2' position='-0.5 0 0.01'>
+                    <a-text id="x-axis" scale='0.5 0.5 0.5' color='black' position='0.2 0 0'></a-text>
+                </a-plane>
+                <a-plane color='#991a1a' width='0.2' height='0.2' position='-0.5 -0.3 0.01'>
+                    <a-text id="y-axis" scale='0.5 0.5 0.5' color='black' position='0.2 0 0'></a-text>
+                </a-plane>
+            </a-plane>
+            <a-cursor id="cursor" color="blue"></a-cursor>
+        </a-camera>
+    </a-scene>
+</body>
+
+</html>

@@ -204,7 +204,8 @@ AFRAME.registerComponent('scatterplot', {
                 }
                 all.attr('visible', false);
                 selected.attr('scale', '7 7 7')
-                    .attr('visible', true);
+                    .attr('visible', true)
+                    .selectAll('a-plane');
                 selected.on('click', function() {
                     selected.attr('scale', '1 1 1');
                     all.attr('visible', true);

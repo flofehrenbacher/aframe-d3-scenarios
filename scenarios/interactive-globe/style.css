@@ -1,0 +1,17 @@
+body {
+    font-family: sans-serif;
+}
+
+ul {
+    list-style-type: square;
+}
+#info-box {
+    z-index: 10;
+    height: 100vh;
+    width: 25vw;
+    padding: 1em;
+    background-color: rgba(100, 100, 100, 0.6);
+    position: absolute;
+    color: white;
+    display: none;
+}

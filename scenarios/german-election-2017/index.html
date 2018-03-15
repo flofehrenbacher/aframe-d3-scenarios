@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bundesländer Deutschland</title>
+    <meta charset='utf-8'></meta>
+    <script src='../../scripts/aframe-v0.7.0.min.js'></script>
+    <script src='../../scripts/d3-v4.12.2.min.js'></script>
+    <script src='../../scripts/d3-selection-multi.v1.0.1.min.js'></script>
+    <script src='../../scripts/aframe-geojson-component.min.js'></script>
+    <script src='election.js'></script>
+</head>
+
+<body>
+    <a-scene>
+        <a-assets>
+            <a-asset-item id='states-boundries' src='assets/bundeslaender.geojson' />
+            <a-asset-item id='election-data' src='assets/election-2017.csv' />
+        </a-assets>
+        <a-entity id="map">
+            <a-entity scale='50 1 50' position='-6.488 0 2.516'>
+                <a-entity id='federal-states' geojson='src: #states-boundries; lineWidth: 1;' position='0 0 1' rotation='-90 0 0' material='color: #000;' geometry='primitive: plane; width: 8; height: 4;'>
+                </a-entity>
+            </a-entity>
+            <a-entity id="target" election="src: #election-data">
+            </a-entity>
+        </a-entity>
+        <a-sky color='#FFF'></a-sky>
+        <a-camera id="camera" user-height='3' position='4.5 0 2' rotation='-30 0 0'>
+            <a-cursor raycaster="objects: .clickable"></a-cursor>
+        </a-camera>
+    </a-scene>
+</body>
+
+</html>
