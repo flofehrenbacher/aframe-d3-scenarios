@@ -20,21 +20,19 @@
         <h2>Info-Box</h2>
         <p> Zeige auf einen Zylinder, um mehr Informationen über dieses Erdbeben zu bekommen.
     </div>
-    <a-scene stats>
+    <a-scene>
         <a-assets>
-            <img id='earth-texture' src='assets/earth-texture.jpg' />
-            <a-asset-item id='earthquake-data' src='assets/10000earthquakes.geojson' />
+            <img id='earth' src='assets/earth.jpg'></img>
+            <a-asset-item id='earthquake-data' src='assets/all_month.geojson'></a-asset-item>
         </a-assets>
         <a-entity id='target' position='0 0 -6'
-            show-earthquakes='src: #earthquake-data; radiusOfGlobe: 2; numberOfEarthquakes: 100'>
-            <a-sphere src='#earth-texture' radius='2' segments-height='53' material='roughness: 1.0'></a-sphere>
+            show-earthquakes='src: #earthquake-data; radiusOfGlobe: 2; filter: false'>
+            <a-sphere src='#earth' radius='2'></a-sphere>
         </a-entity>
         <a-sky color='#000'></a-sky>
-        <a-camera position='0 0 0' id='camera' rotation='0 0 0' user-height='0' wasd-controls-enabled='true' look-controls-enabled='true' orbit-controls='autoRotate: false;
-          target: #target;
-          rotateSpeed:0.2;
-          minDistance:2.5;
-          maxDistance:5;'>
+            <a-camera id="camera" wasd-controls-enabled="false"
+            orbit-controls="target: #target;
+            rotateSpeed: 0.2; minDistance:2.5; maxDistance:5;">
             <a-entity raycaster geometry="primitive: ring; radiusOuter: 0.002;
           radiusInner: 0.001" position="0 0 -0.1"></a-entity>
         </a-camera>

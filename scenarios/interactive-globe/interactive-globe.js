@@ -17,6 +17,9 @@ AFRAME.registerComponent('show-earthquakes', {
         },
         numberOfEarthquakes: {
             type: 'number'
+        },
+        filter: {
+            type: 'boolean'
         }
     },
     init: function() {
@@ -37,14 +40,16 @@ AFRAME.registerComponent('show-earthquakes', {
                 return d.properties.mag;
             });
             magnitudeScale = d3.scaleLinear()
-                .domain([minMag, maxMag])
+                .domain([0, 7])
                 .range([0.1, 0.3]);
             colorScale = d3.scaleLinear()
-                .domain([minMag, (maxMag + minMag) / 2, maxMag])
+                .domain([1, 3.5, 6])
                 .range(['#0F0', '#FF0', '#F00']);
             var currentData = allEarthquakes;
-            // first overview: filter to only show earthquakes with magnitude higher than 4.5
-            // currentData = allEarthquakes.filter(currentComponent.checkMagnitude(4.5));
+            // first overview: filter to only show earthquakes with magnitude higher than 4
+            if(dataPointer.filter === true){
+                currentData = allEarthquakes.filter(currentComponent.checkMagnitude(4));
+            }
             currentComponent.initBarsAsCylinders(currentData);
         });
     },
@@ -89,8 +94,6 @@ AFRAME.registerComponent('show-earthquakes', {
                 }
             });
 
-        console.log(data.length);
-
         earthquakes
             .on('raycaster-intersected', function(d) {
                 updateInformationBox(d);
@@ -124,27 +127,29 @@ AFRAME.registerComponent('show-earthquakes', {
                 'radius-bottom': '0.05',
                 'radius-top': '0.05',
             });
-    },  
-    // tick: function() {
-    //     var earth = this.el.components.position.attrValue;
-    //     var camera = this.el.sceneEl.querySelector("#camera").components.position.attrValue;
-    //     var distance = Math.sqrt(Math.pow(earth.x - camera.x, 2) +
-    //         Math.pow(earth.y - camera.y, 2) +
-    //         Math.pow(earth.z - camera.z, 2));
-    //     if (distance < 3 && isBars === true) {
-    //         this.initBarsAsCylinders(allEarthquakes);
-    //         this.changeToCones();
-    //         isBars = false;
-    //     }
-    //     if (distance >= 3 && isBars === false) {
-    //         var temp = allEarthquakes;
-    //         // first overview: filter to only show earthquakes with magnitude higher than 4.5
-    //         // temp = allEarthquakes.filter(this.checkMagnitude(4.5)
-    //         this.initBarsAsCylinders(temp);
-    //         this.changeToBars();
-    //         isBars = true;
-    //     }
-    // },
+    },
+    tick: function() {
+        var earth = this.el.components.position.attrValue;
+        var camera = this.el.sceneEl.querySelector("#camera").components.position.attrValue;
+        var distance = Math.sqrt(Math.pow(earth.x - camera.x, 2) +
+            Math.pow(earth.y - camera.y, 2) +
+            Math.pow(earth.z - camera.z, 2));
+        if (distance < 3 && isBars === true) {
+            this.initBarsAsCylinders(allEarthquakes);
+            this.changeToCones();
+            isBars = false;
+        }
+        if (distance >= 3 && isBars === false) {
+            var temp = allEarthquakes;
+            // first overview: filter to only show earthquakes with magnitude higher than 4
+            if(dataPointer.filter === true){
+                temp = allEarthquakes.filter(currentComponent.checkMagnitude(4));
+            }
+            this.initBarsAsCylinders(temp);
+            this.changeToBars();
+            isBars = true;
+        }
+    },
     checkMagnitude: function(number) {
         return function(d) {
             return d.properties.mag > number;
