@@ -41,14 +41,14 @@ AFRAME.registerComponent('show-earthquakes', {
             });
             magnitudeScale = d3.scaleLinear()
                 .domain([0, 7])
-                .range([0.1, 0.3]);
+                .range([0.02, 0.3]);
             colorScale = d3.scaleLinear()
                 .domain([1, 3.5, 6])
                 .range(['#0F0', '#FF0', '#F00']);
             var currentData = allEarthquakes;
             // first overview: filter to only show earthquakes with magnitude higher than 4
             if(dataPointer.filter === true){
-                currentData = allEarthquakes.filter(currentComponent.checkMagnitude(4));
+                currentData = allEarthquakes.filter(currentComponent.checkMagnitude(3));
             }
             currentComponent.initBarsAsCylinders(currentData);
         });
@@ -143,7 +143,7 @@ AFRAME.registerComponent('show-earthquakes', {
             var temp = allEarthquakes;
             // first overview: filter to only show earthquakes with magnitude higher than 4
             if(dataPointer.filter === true){
-                temp = allEarthquakes.filter(currentComponent.checkMagnitude(4));
+                temp = allEarthquakes.filter(currentComponent.checkMagnitude(3));
             }
             this.initBarsAsCylinders(temp);
             this.changeToBars();

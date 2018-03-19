@@ -1,8 +1,7 @@
 <h2>Info-Box</h2>
 <ul>
-  <li>Wo: {{d.properties.place}}</li>
-  <li>Wann: {{time}}</li>
-  <li>Stärke (mag): {{d.properties.mag}}</li>
-  <li>Intensität: {{d.properties.cdi}}</br>
-  (Nur für starke Erdbeben verfügbar)</li>
+  <li>Where: {{d.properties.place}}</li>
+  <li>When: {{time}}</li>
+  <li>Magnitude: {{d.properties.mag}}</li>
+  <li>Reports submitted: {{d.properties.felt}}</li>
 </ul>

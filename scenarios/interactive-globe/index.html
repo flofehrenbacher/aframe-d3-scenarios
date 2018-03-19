@@ -18,15 +18,15 @@
 <body>
     <div id="info-box">
         <h2>Info-Box</h2>
-        <p> Zeige auf einen Zylinder, um mehr Informationen über dieses Erdbeben zu bekommen.
+        <p>Point on an earthquake of interest to receive more information about it.</p>
     </div>
     <a-scene>
         <a-assets>
             <img id='earth' src='assets/earth.jpg'></img>
-            <a-asset-item id='earthquake-data' src='assets/all_month.geojson'></a-asset-item>
+            <a-asset-item id='earthquake-data' src='assets/10000earthquakes.geojson'></a-asset-item>
         </a-assets>
         <a-entity id='target' position='0 0 -6'
-            show-earthquakes='src: #earthquake-data; radiusOfGlobe: 2; filter: false'>
+            show-earthquakes='src: #earthquake-data; radiusOfGlobe: 2; numberOfEarthquakes: 1000; filter: true'>
             <a-sphere src='#earth' radius='2'></a-sphere>
         </a-entity>
         <a-sky color='#000'></a-sky>
