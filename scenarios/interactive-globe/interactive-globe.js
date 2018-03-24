@@ -143,7 +143,6 @@ AFRAME.registerComponent('show-earthquakes', {
 
     },
     detailedView: function() {
-        d3.selectAll('a-cylinder');
         var scene = d3.select('#target');
         $('#info-box').fadeIn();
 
