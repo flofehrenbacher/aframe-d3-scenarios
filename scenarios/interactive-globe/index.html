@@ -8,10 +8,10 @@
     <script src='../../scripts/d3-v4.12.2.min.js'></script>
     <script src='../../scripts/d3-selection-multi.v1.0.1.min.js'></script>
     <script src='../../scripts/jquery-v3.2.1.min.js'></script>
-    <!-- allow user to rotate view around object -->
     <script src='../../scripts/aframe-orbit-controls-component.min.js'></script>
     <script src='mustache/mustache.min.js'></script>
     <script src='interactive-globe.js'></script>
+    <script src='dbscan.js'></script>
     <link rel="stylesheet" href='style.css'></link>
 </head>
 
@@ -23,17 +23,17 @@
     <a-scene>
         <a-assets>
             <img id='earth' src='assets/earth.jpg'></img>
-            <a-asset-item id='earthquake-data' src='assets/10000earthquakes.geojson'></a-asset-item>
+            <a-asset-item id='earthquake-data' src='assets/2000earthquakes.geojson'></a-asset-item>
         </a-assets>
         <a-entity id='target' position='0 0 -6'
-            show-earthquakes='src: #earthquake-data; radiusOfGlobe: 2; numberOfEarthquakes: 1000; filter: true'>
+            show-earthquakes='src: #earthquake-data; radiusOfGlobe: 2'>
             <a-sphere src='#earth' radius='2'></a-sphere>
         </a-entity>
         <a-sky color='#000'></a-sky>
             <a-camera id="camera" wasd-controls-enabled="false"
             orbit-controls="target: #target;
             rotateSpeed: 0.2; minDistance:2.5; maxDistance:5;">
-            <a-entity raycaster geometry="primitive: ring; radiusOuter: 0.002;
+            <a-entity raycaster="far: 2" geometry="primitive: ring; radiusOuter: 0.002;
           radiusInner: 0.001" position="0 0 -0.1"></a-entity>
         </a-camera>
     </a-scene>
