@@ -27,9 +27,14 @@ AFRAME.registerComponent('show-earthquakes', {
         dataPointer = this.data;
         globeRadius = dataPointer.radiusOfGlobe;
 
+        // get earthquake data from specified src
         d3.json(dataPointer.src, function(earthquakes) {
             allEarthquakes = earthquakes.features;
 
+            // configure and run DBSCAN algorithm
+            // eps is the minimum distance for clustering: set to 500 (km)
+            // by setting minPts to 0 all earthquakes (even single noise points)
+            // are shown
             dbscanner = jDBSCAN().eps(500).minPts(0).data(allEarthquakes);
             console.log("START: " + performance.now());
             dbscanner();
@@ -57,6 +62,8 @@ AFRAME.registerComponent('show-earthquakes', {
         });
     },
     initClusterAndDetailedView: function() {
+        // init cluster bars and detailed cones once
+        // when user scrolls in/out the appropriate view is made visible
         var scene = d3.select('#target');
         var clusters = scene.selectAll('a-cylinder')
             .data(clusteredEarthquakes)
@@ -91,11 +98,6 @@ AFRAME.registerComponent('show-earthquakes', {
                 visible: false
             });
 
-        clusters
-            .on('raycaster-intersected', function(d) {
-                console.log(d);
-            });
-
             var earthquakes = scene.selectAll('a-cone')
                 .data(allEarthquakes)
                 .enter()
@@ -128,6 +130,7 @@ AFRAME.registerComponent('show-earthquakes', {
                     visible: false
                 });
     },
+    // cluster view without infobox
     clusterOverview: function() {
         $('#info-box').fadeOut();
         var inradians = function(degrees) {
@@ -142,6 +145,7 @@ AFRAME.registerComponent('show-earthquakes', {
             .attr('visible', true);
 
     },
+    // detailed view with infobox
     detailedView: function() {
         var scene = d3.select('#target');
         $('#info-box').fadeIn();
@@ -156,6 +160,8 @@ AFRAME.registerComponent('show-earthquakes', {
                 updateInformationBox(d);
             });
     },
+    // compute distance between camera and center of globe
+    // depending on this distance the cluster view or the detailed view is displayed
     tick: function() {
         var earth = thisComponent.el.components.position.attrValue;
         var camera = thisComponent.el.sceneEl.querySelector("#camera").components.position.attrValue;
@@ -174,6 +180,7 @@ AFRAME.registerComponent('show-earthquakes', {
 });
 
 // HELPER METHODS
+// use mustache to adjust text displayed in infobox
 function updateInformationBox(d) {
     $.get('mustache/info-box.mst', function(template) {
         var time = new Date(d.properties.time);

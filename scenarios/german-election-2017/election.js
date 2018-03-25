@@ -52,11 +52,13 @@ AFRAME.registerComponent('election', {
             };
         }
         d3.csv(pointer.data.src, rowConverter, function(data) {
-            console.log(data);
             var heightScale = d3.scaleLinear()
                 .domain([0, 100])
                 .range([0, 1]);
 
+            // longitudeScale and latitudeScale are used to place bars on map
+            // map longitude/latitude pair to corresponding x y z values
+            // only suits for this specific example
             var longitudeScale = d3.scaleLinear()
                 .domain([5.8721, 15.0409])
                 .range([0, 10.213])
@@ -66,6 +68,7 @@ AFRAME.registerComponent('election', {
                 .range([0, -8.647])
 
             var target = d3.select('#target');
+            // create entity for each federal state
             var container = target.selectAll('a-entity')
                 .data(data)
                 .enter()
@@ -83,6 +86,7 @@ AFRAME.registerComponent('election', {
                     }
                 });
 
+            // label federal states
             container.append('a-text')
                 .attrs({
                     value: function(d) {
@@ -94,7 +98,8 @@ AFRAME.registerComponent('election', {
                     rotation: '-20 0 0'
                 });
 
-            data.forEach(function(item){
+            // create stacked bars according to the data
+            data.forEach(function(item) {
                 d3.select('#' + item.bundesland)
                     .selectAll('a-cylinder.segment')
                     .data(item.parties)
@@ -120,13 +125,14 @@ AFRAME.registerComponent('election', {
                     });
             });
 
+            // once user clicks on bar detailed information is shown
             container.on('click', function(d) {
-                    pointer.detailedBarchart(d);
-                })
-
+                pointer.detailedBarchart(d);
+            });
+            // hover effect (bars become larger) indicate possible user interaction
             container.on('mouseenter', function() {
-                    pointer.hoverEffect(this);
-                });
+                pointer.hoverEffect(this);
+            });
         });
     },
 
@@ -143,6 +149,8 @@ AFRAME.registerComponent('election', {
             .range([0, 3]);
 
         var camera = d3.select('#camera');
+
+        // create label of bars
         var bundeslandText = camera.append('a-text')
             .classed('detail', true)
             .attrs({
@@ -167,15 +175,7 @@ AFRAME.registerComponent('election', {
                 align: 'center'
             });
 
-        camera.append('a-plane')
-            .classed('clickable', true)
-            .classed('exit', true)
-            .classed('detail', true)
-            .attrs({
-                position: '0 0 -3.5',
-                color: 'white'
-            });
-
+        // create single bars for each party
         var bars = camera.selectAll('a-cylinder')
             .data(state.parties)
             .enter()
@@ -198,12 +198,14 @@ AFRAME.registerComponent('election', {
                 height: 0
             });
 
+        // animate height of bars
         bars.transition()
             .duration(3000)
             .attr('height', function(d) {
                 return heightScale(d.percentage);
             });
 
+        // label bars with party name
         bars.append('a-text')
             .attrs({
                 value: function(d) {
@@ -216,6 +218,7 @@ AFRAME.registerComponent('election', {
                 align: 'center'
             });
 
+        // add percentage to each bar
         bars.append('a-text')
             .attrs({
                 value: function(d) {
@@ -228,15 +231,26 @@ AFRAME.registerComponent('election', {
                 align: 'center'
             })
 
+        // hide map while detailed bar chart is shown
         d3.select('#map')
             .attr('visible', false);
 
+        // once user clicks again he returns to map
         d3.select('.exit')
             .on('click', function() {
                 d3.select('#map')
                     .attr('visible', true);
                 d3.selectAll('.detail')
                     .remove();
+            });
+
+        camera.append('a-plane')
+            .classed('clickable', true)
+            .classed('exit', true)
+            .classed('detail', true)
+            .attrs({
+                position: '0 0 -3.5',
+                color: 'white'
             });
     }
 });

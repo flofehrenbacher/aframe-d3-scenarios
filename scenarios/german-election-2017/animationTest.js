@@ -1,5 +1,6 @@
 AFRAME.registerComponent('animation-test', {
     init: function() {
+        // number of bars to be animated can be changed here
         var testLength = 10;
         var animationDuration = 3000;
         var testData = [];
@@ -37,9 +38,11 @@ AFRAME.registerComponent('animation-test', {
                 shadow: ''
             });
 
+        // get current time before animation is attached to elements
         console.log("START");
         var start = performance.now();
 
+        // uncomment animation technique you want to test
         /* ######################## ANIMATION USING D3 ###################### */
         // bars.transition()
         //     .duration(animationDuration)

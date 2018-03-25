@@ -1,4 +1,3 @@
-/* globals AFRAME */
 AFRAME.registerComponent('scatterplot', {
     schema: {
         src: {
@@ -59,12 +58,11 @@ AFRAME.registerComponent('scatterplot', {
             };
         }
 
+        // define text of legend according to attributes from csv
         d3.select('#x-axis')
             .attr('value', x);
-
         d3.select('#y-axis')
             .attr('value', y);
-
         d3.select('#z-axis')
             .attr('value', z);
 
@@ -113,7 +111,7 @@ AFRAME.registerComponent('scatterplot', {
                 .domain([minZ, maxZ])
                 .range(['white', '#1b8424']);
 
-
+            // init data flag object
             var points = scatterplot.selectAll('a-entity.point')
                 .data(data)
                 .enter()
@@ -125,6 +123,7 @@ AFRAME.registerComponent('scatterplot', {
                     }
                 });
 
+            // add detailed information to flag objects
             points.append('a-text')
                 .classed('detail', true)
                 .attrs({
@@ -139,6 +138,7 @@ AFRAME.registerComponent('scatterplot', {
                     align: 'center'
                 });
 
+            // animate position of data flags
             points.append('a-animation')
                 .attrs({
                     attribute: 'position',
@@ -148,6 +148,7 @@ AFRAME.registerComponent('scatterplot', {
                     dur: '2000'
                 })
 
+            // append three segments to data flags
             points.append('a-plane')
                 .attrs({
                     width: dataFlagSize,
@@ -177,6 +178,7 @@ AFRAME.registerComponent('scatterplot', {
                     height: dataFlagSize / 3
                 });
 
+            // label data flags
             points.append('a-text')
                 .classed('label', true)
                 .attrs({
@@ -195,6 +197,7 @@ AFRAME.registerComponent('scatterplot', {
                     }
                 });
 
+            // allow user to click on data flag (FOCUS + CONTEXT)
             points.on('click', function(d) {
                 var selected = d3.select(this);
                 var all = scatterplot.selectAll('a-entity.point');

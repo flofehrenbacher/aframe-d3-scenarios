@@ -5,7 +5,6 @@
 
 // obtained from https://github.com/upphiminn/jDBSCAN
 // modified to suit earthquake data in GeoJSON format by Florian Fehrenbacher
-
 (function() {
     jDBSCAN = function() {
         //Local instance vars.
@@ -57,11 +56,7 @@
         }
 
         function haversine_distance(point1, point2) {
-            // default 4 sig figs reflects typical 0.3% accuracy of spherical model
-            if (typeof precision === 'undefined') {
-                var precision = 4;
-            }
-
+            // radius of earth
             var R = 6371;
             // lat: geometry[1] and long geometry[0]
             var lat1 = point1.geometry.coordinates[1] * Math.PI / 180,
@@ -79,7 +74,7 @@
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             var d = R * c;
 
-            return d.toPrecision(precision);
+            return d.toPrecision(4);
         }
 
         function expand_cluster(point_idx, neighbours, cluster_idx) {
