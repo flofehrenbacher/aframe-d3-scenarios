@@ -236,14 +236,6 @@ AFRAME.registerComponent('election', {
             .attr('visible', false);
 
         // once user clicks again he returns to map
-        d3.select('.exit')
-            .on('click', function() {
-                d3.select('#map')
-                    .attr('visible', true);
-                d3.selectAll('.detail')
-                    .remove();
-            });
-
         camera.append('a-plane')
             .classed('clickable', true)
             .classed('exit', true)
@@ -251,6 +243,14 @@ AFRAME.registerComponent('election', {
             .attrs({
                 position: '0 0 -3.5',
                 color: 'white'
+            });
+
+        d3.select('.exit')
+            .on('click', function() {
+                d3.select('#map')
+                    .attr('visible', true);
+                d3.selectAll('.detail')
+                    .remove();
             });
     }
 });
