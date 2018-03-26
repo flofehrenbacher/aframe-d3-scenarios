@@ -5,6 +5,7 @@ body {
 ul {
     list-style-type: square;
 }
+
 #info-box {
     z-index: 10;
     height: 100vh;
@@ -14,4 +15,8 @@ ul {
     position: absolute;
     color: white;
     display: none;
+}
+
+li {
+    font-size: 1.5em;
 }
